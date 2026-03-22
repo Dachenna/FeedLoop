@@ -75,7 +75,8 @@ export default function Home() {
             {[
               { icon: LayoutDashboard, title: "Native Widgets", desc: "Pixel-perfect, theme-aware embeds for your app." },
               { icon: MessageSquare, title: "Smart Routing", desc: "Auto-sync feedback to Slack, Linear, or Notion." },
-              { icon: BarChart3, title: "AI Insights", desc: "Identify themes and trends automatically with GPT-4." }
+              { icon: BarChart3, title: "AI Insights", desc: "Identify themes and trends automatically with GPT-4." },
+              { icon: Zap, title: "Real-time Updates", desc: "See feedback and analytics update live as users interact." },
             ].map((feature, i) => (
               <motion.div key={i} variants={itemVariants} initial="hidden" whileInView="visible" viewport={{ once: true }}>
                 <Card className="bg-slate-900/40 backdrop-blur-xl border-slate-800/50 hover:border-emerald-500/40 transition-colors">
@@ -95,11 +96,45 @@ export default function Home() {
           <div className="text-center mb-4">
             <h2 className="text-[16px] font-bold text-white uppercase">Simple Pricing</h2>
           </div>
-          <div className="max-w-md mx-auto">
+          <div className="max-w-md mx-auto flex flex-col md:flex-row gap-6">
+            <Card className="bg-emerald-500/5 border-emerald-500/20 backdrop-blur-sm">
+              <CardContent className="p-4 flex flex-col items-center">
+                <span className="text-[12px] text-emerald-400 font-bold uppercase mb-2">Free Plan</span>
+                <div className="text-[16px] font-bold text-white mb-4">$0<span className="text-[14px] font-normal text-slate-500">/mo</span></div>
+                <ul className="w-full space-y-3 mb-6">
+                  {["Unlimited Projects", "AI Sentiment Analysis", "Custom Branding"].map((item, idx) => (
+                    <li key={idx} className="flex items-center text-[12px] text-slate-300">
+                      <Check className="h-3 w-3 text-emerald-500 mr-2" /> {item}
+                    </li>
+                  ))}
+                </ul>
+                <Button className="w-full h-9 bg-white text-black hover:bg-slate-200 text-[14px] font-medium">
+                  Start Free Trial
+                </Button>
+              </CardContent>
+            </Card>
+
             <Card className="bg-emerald-500/5 border-emerald-500/20 backdrop-blur-sm">
               <CardContent className="p-4 flex flex-col items-center">
                 <span className="text-[12px] text-emerald-400 font-bold uppercase mb-2">Pro Plan</span>
-                <div className="text-[16px] font-bold text-white mb-4">$29<span className="text-[14px] font-normal text-slate-500">/mo</span></div>
+                <div className="text-[16px] font-bold text-white mb-4">$19<span className="text-[14px] font-normal text-slate-500">/mo</span></div>
+                <ul className="w-full space-y-3 mb-6">
+                  {["Unlimited Projects", "AI Sentiment Analysis", "Custom Branding"].map((item, idx) => (
+                    <li key={idx} className="flex items-center text-[12px] text-slate-300">
+                      <Check className="h-3 w-3 text-emerald-500 mr-2" /> {item}
+                    </li>
+                  ))}
+                </ul>
+                <Button className="w-full h-9 bg-white text-black hover:bg-slate-200 text-[14px] font-medium">
+                  Start Free Trial
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-emerald-500/5 border-emerald-500/20 backdrop-blur-sm hover:translate-y-1">
+              <CardContent className="p-4 flex flex-col items-center">
+                <span className="text-[12px] text-emerald-400 font-bold uppercase mb-2">Enterprise Plan</span>
+                <div className="text-[16px] font-bold text-white mb-4">$39<span className="text-[14px] font-normal text-slate-500">/mo</span></div>
                 <ul className="w-full space-y-3 mb-6">
                   {["Unlimited Projects", "AI Sentiment Analysis", "Custom Branding"].map((item, idx) => (
                     <li key={idx} className="flex items-center text-[12px] text-slate-300">
