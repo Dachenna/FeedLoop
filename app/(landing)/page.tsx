@@ -97,7 +97,7 @@ export default function Home() {
             <h2 className="text-[16px] font-bold text-white uppercase">Simple Pricing</h2>
           </div>
           <div className="max-w-md mx-auto flex flex-col md:flex-row gap-6">
-            <Card className="bg-emerald-500/5 border-emerald-500/20 backdrop-blur-sm">
+            <Card className="bg-emerald-500/5 border-emerald-500/20 backdrop-blur-sm hover:border-2 hover:border-emerald-500/60 transition-all duration-200">
               <CardContent className="p-4 flex flex-col items-center">
                 <span className="text-[12px] text-emerald-400 font-bold uppercase mb-2">Free Plan</span>
                 <div className="text-[16px] font-bold text-white mb-4">$0<span className="text-[14px] font-normal text-slate-500">/mo</span></div>
@@ -114,7 +114,7 @@ export default function Home() {
               </CardContent>
             </Card>
 
-            <Card className="bg-emerald-500/5 border-emerald-500/20 backdrop-blur-sm">
+            <Card className="bg-emerald-500/5 border-emerald-500/20 backdrop-blur-sm hover:border-2 hover:border-emerald-500/60 transition-all duration-200">
               <CardContent className="p-4 flex flex-col items-center">
                 <span className="text-[12px] text-emerald-400 font-bold uppercase mb-2">Pro Plan</span>
                 <div className="text-[16px] font-bold text-white mb-4">$19<span className="text-[14px] font-normal text-slate-500">/mo</span></div>
@@ -131,7 +131,7 @@ export default function Home() {
               </CardContent>
             </Card>
 
-            <Card className="bg-emerald-500/5 border-emerald-500/20 backdrop-blur-sm hover:translate-y-1">
+            <Card className="bg-emerald-500/5 border-emerald-500/20 hover:border-2 hover:border-emerald-500/60 backdrop-blur-sm hover:translate-y-1 duration-200">
               <CardContent className="p-4 flex flex-col items-center">
                 <span className="text-[12px] text-emerald-400 font-bold uppercase mb-2">Enterprise Plan</span>
                 <div className="text-[16px] font-bold text-white mb-4">$39<span className="text-[14px] font-normal text-slate-500">/mo</span></div>
