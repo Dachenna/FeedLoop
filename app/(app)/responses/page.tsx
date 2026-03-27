@@ -36,5 +36,12 @@ export default async function ResponsesPage() {
     );
   }
 
-  return <ResponsesList initialResponses={responses || []} />;
+  const formattedResponses = (responses || []).map((response) => ({
+    ...response,
+    surveys: {
+      title: response.surveys[0]?.title || '',
+    },
+  }));
+
+  return <ResponsesList initialResponses={formattedResponses} />;
 }

@@ -154,7 +154,7 @@ export default function SurveysList({ initialSurveys }: SurveysListProps) {
                 {/* Actions */}
                 <div className="flex flex-wrap gap-2">
                   <Button variant="outline" size="sm" asChild>
-                    <Link href={`/app/surveys/${survey.id}`}>
+                    <Link href={`/app/survey/${survey.id}`}>
                       <Eye className="mr-1.5 h-4 w-4" />
                       Preview
                     </Link>

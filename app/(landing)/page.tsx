@@ -2,10 +2,12 @@
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { ArrowRight, MessageSquare, BarChart3, LayoutDashboard, Check, Zap } from "lucide-react"
-import Link from "next/link"
+import { MessageSquare, BarChart3, LayoutDashboard, Check, Zap } from "lucide-react"
 import { motion, Variants } from "framer-motion"
 import { BackgroundCircles } from "@/components/ui/BGcircles/background-circles"
+import { useState } from 'react'
+import { Switch } from "@/components/ui/switch"
+
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -25,6 +27,8 @@ const itemVariants: Variants = {
 }
 
 export default function Home() {
+  const [isYearly, setIsYearly] = useState(false)
+
   return (
     <div className="relative min-h-screen bg-black text-slate-200 overflow-x-hidden selection:bg-emerald-500/30 font-sans antialiased">
       {/* Dynamic Background */}
@@ -91,10 +95,62 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Trusted Section */}
+        <section className="py-16">
+          <div className="text-center mb-8">
+            <h2 className="text-[16px] font-bold text-white uppercase">Trusted by</h2>
+          </div>
+          <div className="flex justify-center items-center gap-8">
+            <div className="text-slate-400 text-[14px]">TechCorp</div>
+            <div className="text-slate-400 text-[14px]">InnovateLabs</div>
+            <div className="text-slate-400 text-[14px]">StartupXYZ</div>
+          </div>
+        </section>
+
+        {/* Recommendation Section */}
+        <section className="py-16">
+          <div className="text-center mb-8">
+            <h2 className="text-[16px] font-bold text-white uppercase">What our users say</h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Card className="bg-slate-900/40 backdrop-blur-xl border-slate-800/50">
+              <CardContent className="p-6">
+                <p className="text-[14px] text-slate-300 mb-4">&apos;FeedLoop transformed how we gather and act on user feedback. The AI insights are game-changing.&apos;</p>
+                <div className="flex items-center">
+                  <div className="h-8 w-8 bg-emerald-500 rounded-full mr-3"></div>
+                  <div>
+                    <p className="text-[12px] font-medium text-white">Sarah Chen</p>
+                    <p className="text-[10px] text-slate-400">Product Manager, TechCorp</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            <Card className="bg-slate-900/40 backdrop-blur-xl border-slate-800/50">
+              <CardContent className="p-6">
+                <p className="text-[14px] text-slate-300 mb-4">&apos;The native widgets integrate seamlessly, and the real-time updates keep us informed.&apos;</p>
+                <div className="flex items-center">
+                  <div className="h-8 w-8 bg-emerald-500 rounded-full mr-3"></div>
+                  <div>
+                    <p className="text-[12px] font-medium text-white">Mike Johnson</p>
+                    <p className="text-[10px] text-slate-400">CTO, InnovateLabs</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+
         {/* Minimal Pricing */}
+           
         <section className="py-16 border-t border-slate-800/50">
           <div className="text-center mb-4">
             <h2 className="text-[16px] font-bold text-white uppercase">Simple Pricing</h2>
+          </div>
+          <div className="flex items-center justify-center gap-4 mb-8">
+            <span className={`text-sm ${!isYearly ? 'text-white font-medium' : 'text-slate-400'}`}>Monthly</span>
+            <Switch checked={isYearly} onCheckedChange={setIsYearly} />
+            <span className={`text-sm ${isYearly ? 'text-white font-medium' : 'text-slate-400'}`}>Yearly</span>
+            {isYearly && <span className="text-xs text-emerald-400 font-medium ml-2">Save 20%</span>}
           </div>
           <div className="max-w-md mx-auto flex flex-col md:flex-row gap-6">
             <Card className="bg-emerald-500/5 border-emerald-500/20 backdrop-blur-sm hover:border-2 hover:border-emerald-500/60 transition-all duration-200">
@@ -117,7 +173,7 @@ export default function Home() {
             <Card className="bg-emerald-500/5 border-emerald-500/20 backdrop-blur-sm hover:border-2 hover:border-emerald-500/60 transition-all duration-200">
               <CardContent className="p-4 flex flex-col items-center">
                 <span className="text-[12px] text-emerald-400 font-bold uppercase mb-2">Pro Plan</span>
-                <div className="text-[16px] font-bold text-white mb-4">$19<span className="text-[14px] font-normal text-slate-500">/mo</span></div>
+                <div className="text-[16px] font-bold text-white mb-4">${isYearly ? '182' : '19'}<span className="text-[14px] font-normal text-slate-500">{isYearly ? '/year' : '/mo'}</span></div>
                 <ul className="w-full space-y-3 mb-6">
                   {["Unlimited Projects", "AI Sentiment Analysis", "Custom Branding"].map((item, idx) => (
                     <li key={idx} className="flex items-center text-[12px] text-slate-300">
@@ -134,7 +190,7 @@ export default function Home() {
             <Card className="bg-emerald-500/5 border-emerald-500/20 hover:border-2 hover:border-emerald-500/60 backdrop-blur-sm hover:translate-y-1 duration-200">
               <CardContent className="p-4 flex flex-col items-center">
                 <span className="text-[12px] text-emerald-400 font-bold uppercase mb-2">Enterprise Plan</span>
-                <div className="text-[16px] font-bold text-white mb-4">$39<span className="text-[14px] font-normal text-slate-500">/mo</span></div>
+                <div className="text-[16px] font-bold text-white mb-4">${isYearly ? '374' : '39'}<span className="text-[14px] font-normal text-slate-500">{isYearly ? '/year' : '/mo'}</span></div>
                 <ul className="w-full space-y-3 mb-6">
                   {["Unlimited Projects", "AI Sentiment Analysis", "Custom Branding"].map((item, idx) => (
                     <li key={idx} className="flex items-center text-[12px] text-slate-300">
@@ -147,6 +203,17 @@ export default function Home() {
                 </Button>
               </CardContent>
             </Card>
+          </div>
+        </section>
+
+        {/* CTA Section */}
+        <section className="py-16">
+          <div className="text-center">
+            <h2 className="text-[18px] font-bold text-white mb-4">Ready to close your feedback loops?</h2>
+            <p className="text-[14px] text-slate-400 mb-8">Join thousands of teams already using FeedLoop to collect and analyze user feedback.</p>
+            <Button size="lg" className="h-12 px-8 text-[16px] rounded-md bg-emerald-600 hover:bg-emerald-500 text-white border-none transition-all shadow-lg shadow-emerald-900/20">
+              Start Your Free Trial
+            </Button>
           </div>
         </section>
 
