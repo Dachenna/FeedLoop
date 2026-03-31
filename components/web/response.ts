@@ -1,3 +1,5 @@
+'use server';
+
 import { SubmitResponseSchema } from "@/app/schemas/auth";
 
 import { createClient } from '@/lib/supabase/server';

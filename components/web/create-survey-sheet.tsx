@@ -74,7 +74,7 @@ export function CreateSurveySheet({ open, onOpenChange, onSave }: CreateSurveySh
   const [anonymous, setAnonymous] = useState(false)
   const [loading, setLoading] = useState(false)
   const [questions, setQuestions] = useState<Question[]>([])
-  const [existingSurveys, setExistingSurveys] = useState<{ id: string; title: string; questions: any }[]>([])
+  const [existingSurveys, setExistingSurveys] = useState<{ id: string; title: string; questions: Question[] }[]>([])
 
   const isEditing = !!surveyToEdit
 

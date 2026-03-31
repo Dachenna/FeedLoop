@@ -12,7 +12,7 @@ import { toast } from 'sonner'
 type Response = {
   id: string
   respondent_email: string | null
-  answers: Record<string, any>
+  answers: Record<string, string | number | boolean | null>
   submitted_at: string
   surveys: {
     title: string

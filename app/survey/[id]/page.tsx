@@ -3,13 +3,14 @@ import { createClient } from '@/lib/supabase/server';
 import { notFound } from 'next/navigation';
 import SurveyForm from './SurveyForm';
 
-export default async function PublicSurveyPage({ params }: { params: { id: string } }) {
+export default async function PublicSurveyPage({ params }: { params: Promise<{ id: string }> }) {
+  const resolvedParams = await params;
   const supabase = await createClient();
 
   const { data: survey, error } = await supabase
     .from('surveys')
     .select('id, title, description, survey_type, anonymous, status, questions')
-    .eq('id', params.id)
+    .eq('id', resolvedParams.id)
     .single();
 
   if (error || !survey || survey.status !== 'active') {
