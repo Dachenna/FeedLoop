@@ -1,7 +1,7 @@
 // app/(app)/responses/page.tsx
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
-import { ResponsesList } from './ResponsesList';
+import ResponsesList from './ResponsesList';
 
 export default async function ResponsesPage() {
   const supabase = await createClient();
@@ -21,7 +21,7 @@ export default async function ResponsesPage() {
       submitted_at,
       surveys!inner (title)
     `)
-    .eq('surveys.user_id', user.id)  // Only responses from surveys owned by this user
+    .eq('surveys.user_id', user.id)
     .order('submitted_at', { ascending: false });
 
   if (error) {
@@ -36,12 +36,6 @@ export default async function ResponsesPage() {
     );
   }
 
-  const formattedResponses = (responses || []).map((response) => ({
-    ...response,
-    surveys: {
-      title: response.surveys[0]?.title || '',
-    },
-  }));
-
-  return <ResponsesList initialResponses={formattedResponses} />;
+  // No need for complicated formatting - the join already gives us what we need
+  return <ResponsesList initialResponses={responses || []} />;
 }

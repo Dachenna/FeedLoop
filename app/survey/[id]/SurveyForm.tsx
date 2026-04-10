@@ -5,17 +5,39 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Label } from '@/components/ui/label';
+import { Card } from '@/components/ui/card';
 import { toast } from 'sonner';
-import { submitResponseAction } from '@/components/web/response'; // Adjust path
+import { submitResponseAction } from '@/components/web/response';
+import { Heart, MessageSquare, Star } from 'lucide-react';
+import { BackgroundCircles } from '@/components/ui/BGcircles/background-circles';
 
-export default function SurveyForm({ survey }: { survey: any }) {
-  const [answers, setAnswers] = useState<Record<string, any>>({});
+type SurveyQuestion = {
+  type: 'text' | 'multiple_choice' | 'rating';
+  text: string;
+  required?: boolean;
+  options?: string[];
+  settings?: { min: number; max: number };
+};
+
+type SurveyData = {
+  id: string;
+  title?: string;
+  description?: string;
+  anonymous?: boolean;
+  questions?: SurveyQuestion[];
+};
+
+export default function SurveyForm({ survey }: { survey: SurveyData }) {
+  const [answers, setAnswers] = useState<Record<string, string | number>>({});
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
+  const [hoveredRating, setHoveredRating] = useState<number | null>(null);
 
-  const handleChange = (questionId: string, value: any) => {
+  const totalQuestions = survey.questions?.length || 0;
+  const answeredQuestions = Object.keys(answers).filter(key => answers[key] !== undefined && answers[key] !== '').length;
+  const progressPercentage = totalQuestions > 0 ? (answeredQuestions / totalQuestions) * 100 : 0;
+
+  const handleChange = (questionId: string, value: string | number) => {
     setAnswers(prev => ({ ...prev, [questionId]: value }));
   };
 
@@ -31,7 +53,6 @@ export default function SurveyForm({ survey }: { survey: any }) {
     }
 
     const result = await submitResponseAction(formData);
-
     setLoading(false);
 
     if (result.error) {
@@ -40,75 +61,149 @@ export default function SurveyForm({ survey }: { survey: any }) {
     }
 
     toast.success('Thank you for your feedback!');
-    // Optional: reset form or show thank-you message
+  };
+
+  const getQuestionIcon = (type: string) => {
+    switch (type) {
+      case 'rating':
+        return <Star className="w-4 h-4 text-amber-500" />;
+      case 'multiple_choice':
+        return <MessageSquare className="w-4 h-4 text-blue-500" />;
+      case 'text':
+        return <MessageSquare className="w-4 h-4 text-purple-500" />;
+      default:
+        return null;
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-8">
-      {survey.questions?.map((q: any, index: number) => (
-        <div key={index} className="space-y-3 border-b pb-6">
-          <Label className="text-lg font-medium">
-            {q.text} {q.required && <span className="text-red-500">*</span>}
-          </Label>
+    <div className="relative min-h-screen dark:bg-black bg-transparent-100/40 text-slate-200 overflow-x-hidden selection:bg-emerald-500/30 font-sans antialiased rounded-sm">
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        <BackgroundCircles variant="primary" backgroundOnly className="opacity-40" />
+      </div>
 
-          {q.type === 'text' && (
-            <Textarea
-              onChange={e => handleChange(index.toString(), e.target.value)}
-              required={q.required}
-            />
+      <main className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 py-10 ">
+        <section className="pt-20 pb-12 text-center">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-[12px] font-medium text-emerald-400 uppercase tracking-wider mx-auto mb-4">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            Feedback Session
+          </div>
+          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-white mb-3">
+            {survey.title || 'Share Your Feedback'}
+          </h1>
+          {survey.description && (
+            <p className="text-base sm:text-lg text-slate-300 max-w-3xl mx-auto">{survey.description}</p>
           )}
+        </section>
 
-          {q.type === 'multiple_choice' && q.options && (
-            <RadioGroup
-              onValueChange={val => handleChange(index.toString(), val)}
-              required={q.required}
-            >
-              {q.options.map((opt: string, optIdx: number) => (
-                <div key={optIdx} className="flex items-center space-x-2">
-                  <RadioGroupItem value={opt} id={`${index}-${optIdx}`} />
-                  <Label htmlFor={`${index}-${optIdx}`}>{opt}</Label>
-                </div>
-              ))}
-            </RadioGroup>
-          )}
-
-          {q.type === 'rating' && q.settings && (
-            <div className="flex flex-wrap gap-2">
-              {Array.from(
-                { length: q.settings.max - q.settings.min + 1 },
-                (_, i) => q.settings.min + i
-              ).map(num => (
-                <Button
-                  key={num}
-                  type="button"
-                  variant={answers[index.toString()] === num ? 'default' : 'outline'}
-                  onClick={() => handleChange(index.toString(), num)}
-                  className="w-10 h-10"
-                >
-                  {num}
-                </Button>
-              ))}
+        {totalQuestions > 0 && (
+          <section className="mb-8">
+            <div className="flex justify-between items-center mb-2 text-sm text-slate-300">
+              <span>Progress</span>
+              <span className="font-semibold text-emerald-300">{answeredQuestions} / {totalQuestions}</span>
             </div>
+            <div className="w-full h-2 rounded-full bg-slate-300 overflow-hidden">
+              <div className="h-full bg-emerald-500 transition-all duration-500" style={{ width: `${progressPercentage}%` }} />
+            </div>
+          </section>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="grid grid-cols-1 gap-4">
+            {survey.questions?.map((q: SurveyQuestion, index: number) => (
+              <Card key={index} className="bg-slate-900/50 border border-slate-800/80 backdrop-blur-lg hover:border-emerald-400/40 transition-colors">
+                <div className="p-4">
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="text-emerald-400">{getQuestionIcon(q.type)}</div>
+                    <h3 className="text-lg font-semibold text-white">{q.text}</h3>
+                    {q.required && <span className="ml-auto text-xs font-semibold text-emerald-300 uppercase tracking-wider">Required</span>}
+                  </div>
+
+                  {q.type === 'text' && (
+                    <Textarea
+                      placeholder="Share your thoughts here..."
+                      className="w-full min-h-25.75 rounded-lg border border-slate-700 bg-slate-900/70 text-slate-100 focus:border-emerald-400 focus:ring-emerald-500/40"
+                      onChange={e => handleChange(index.toString(), e.target.value)}
+                      required={q.required}
+                    />
+                  )}
+
+                  {q.type === 'multiple_choice' && q.options && (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {q.options.map((opt: string, optIdx: number) => (
+                        <label key={optIdx} className="flex items-center gap-2 p-3 rounded-lg border border-slate-700 bg-slate-950/40 cursor-pointer hover:border-emerald-400">
+                          <input
+                            type="radio"
+                            name={`question-${index}`}
+                            value={opt}
+                            checked={answers[index.toString()] === opt}
+                            onChange={() => handleChange(index.toString(), opt)}
+                            className="h-4 w-4 accent-emerald-400"
+                          />
+                          <span className="text-sm text-slate-100">{opt}</span>
+                        </label>
+                      ))}
+                    </div>
+                  )}
+
+                  {q.type === 'rating' && q.settings && (
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      {Array.from({ length: (q.settings?.max ?? 5) - (q.settings?.min ?? 1) + 1 }, (_, i) => (q.settings?.min ?? 1) + i).map(num => {
+                        const isSelected = answers[index.toString()] === num;
+                        const isHovered = hoveredRating === num;
+                        return (
+                          <button
+                            key={num}
+                            type="button"
+                            onClick={() => handleChange(index.toString(), num)}
+                            onMouseEnter={() => setHoveredRating(num)}
+                            onMouseLeave={() => setHoveredRating(null)}
+                            className={`w-11 h-11 rounded-lg flex items-center justify-center font-semibold transition ${isSelected ? 'bg-linear-to-br from-emerald-400 to-cyan-400 text-slate-900 shadow-lg scale-105' : isHovered ? 'bg-slate-700 text-white' : 'bg-slate-800 text-slate-200 hover:bg-slate-700'}`}
+                          >
+                            {num}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              </Card>
+            ))}
+          </div>
+
+          {!survey.anonymous && (
+            <Card className="bg-slate-900/50 border border-slate-800/80 backdrop-blur-lg">
+              <div className="p-4 space-y-2">
+                <div className="flex items-center gap-2">
+                  <Heart className="w-4 h-4 text-pink-400" />
+                  <h3 className="text-sm font-semibold text-white">Stay Connected</h3>
+                </div>
+                <p className="text-sm text-slate-300">Optional: Share your email so we can follow up.</p>
+                <Input
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                  placeholder="your.email@example.com"
+                  className="w-full rounded-lg border border-slate-700 bg-slate-900/70 text-slate-100 focus:border-emerald-400 focus:ring-emerald-500/40"
+                />
+              </div>
+            </Card>
           )}
-        </div>
-      ))}
 
-      {!survey.anonymous && (
-        <div className="space-y-2">
-          <Label htmlFor="email">Your email (optional)</Label>
-          <Input
-            id="email"
-            type="email"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            placeholder="email@example.com"
-          />
-        </div>
-      )}
+          <div className="pt-3">
+            <Button
+              type="submit"
+              disabled={loading}
+              className="w-full h-12 font-semibold rounded-lg bg-emerald-600 hover:bg-emerald-500 text-black shadow-xl shadow-emerald-900/30"
+            >
+              {loading ? 'Submitting…' : 'Send Feedback'}
+            </Button>
+          </div>
 
-      <Button type="submit" className="w-full" disabled={loading}>
-        {loading ? 'Submitting...' : 'Submit Feedback'}
-      </Button>
-    </form>
+          <p className="text-center text-sm text-slate-400">Your feedback is valuable and helps us improve. We appreciate you taking the time!</p>
+        </form>
+      </main>
+    </div>
   );
 }
