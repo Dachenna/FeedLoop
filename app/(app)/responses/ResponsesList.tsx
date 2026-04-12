@@ -4,15 +4,16 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Trash2, Eye } from 'lucide-react';
+import { Eye, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
+import { createClient } from '@/lib/supabase/client';
 
 type Response = {
   id: string;
   respondent_email: string | null;
-  answers: Record<string, any>;     // This is the JSONB object
+  answers: Record<string, unknown>;
   submitted_at: string;
-  surveys: { title: string };
+  surveys: { title: string }[];        // This matches what Supabase returns
 };
 
 interface ResponsesListProps {
@@ -32,6 +33,19 @@ export default function ResponsesList({ initialResponses }: ResponsesListProps) 
     setSelectedResponse(null);
   };
 
+  const deleteResponse = async (id: string) => {
+    const supabase = createClient();
+    const { error } = await supabase.from('responses').delete().eq('id', id);
+    if (error) {
+      console.error('Failed to delete response:', error);
+      toast.error('Failed to delete response');
+    } else {
+      setResponses(responses.filter(r => r.id !== id));
+      setSelectedResponse(null);
+      toast.success('Response deleted successfully');
+    }
+  };
+
   return (
     <>
       {/* List of response cards */}
@@ -43,7 +57,7 @@ export default function ResponsesList({ initialResponses }: ResponsesListProps) 
             {responses.map((response) => (
               <Card key={response.id}>
                 <CardHeader>
-                  <CardTitle>{response.surveys.title}</CardTitle>
+                  <CardTitle>{response.surveys[0]?.title}</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
                   <p>Respondent: {response.respondent_email || 'Anonymous'}</p>
@@ -69,14 +83,14 @@ export default function ResponsesList({ initialResponses }: ResponsesListProps) 
           <div className="bg-white dark:bg-zinc-900 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-auto">
             
             <div className="p-6 border-b">
-              <h2 className="text-2xl font-bold">{selectedResponse.surveys.title}</h2>
+              <h2 className="text-2xl font-bold">{selectedResponse.surveys[0]?.title}</h2>
               <p className="text-sm text-gray-500">
                 Submitted {new Date(selectedResponse.submitted_at).toLocaleString()}
               </p>
             </div>
 
             <div className="p-6 space-y-8">
-              {Object.entries(selectedResponse.answers).map(([key, answer], index) => (
+              {Object.entries(selectedResponse.answers).map(([key, answer]) => (
                 <div key={key} className="border-b pb-6 last:border-none">
                   <p className="font-medium mb-1">Question {parseInt(key) + 1}</p>
                   <p className="text-lg">{String(answer)}</p>
@@ -84,7 +98,11 @@ export default function ResponsesList({ initialResponses }: ResponsesListProps) 
               ))}
             </div>
 
-            <div className="p-6 border-t flex justify-end">
+            <div className="p-6 border-t flex justify-between">
+              <Button onClick={() => deleteResponse(selectedResponse.id)} variant="destructive">
+                <Trash2 className="mr-2 h-4 w-4" />
+                Delete Response
+              </Button>
               <Button onClick={closeModal}>Close</Button>
             </div>
           </div>
