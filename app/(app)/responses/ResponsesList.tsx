@@ -89,11 +89,15 @@ export default function ResponsesList({ initialResponses }: ResponsesListProps) 
               </p>
             </div>
 
-            <div className="p-6 space-y-8">
+            <div className="p-6 space-y-4">
               {Object.entries(selectedResponse.answers).map(([key, answer]) => (
-                <div key={key} className="border-b pb-6 last:border-none">
-                  <p className="font-medium mb-1">Question {parseInt(key) + 1}</p>
-                  <p className="text-lg">{String(answer)}</p>
+                <div key={key} className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg border">
+                  <div className="font-medium text-gray-700 dark:text-gray-300 mb-2 sm:mb-0">
+                    Question {parseInt(key) + 1}
+                  </div>
+                  <div className="text-gray-900 dark:text-gray-100 text-sm sm:text-base">
+                    {String(answer)}
+                  </div>
                 </div>
               ))}
             </div>
