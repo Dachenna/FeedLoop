@@ -59,12 +59,12 @@ export default function ResponsesList({ initialResponses }: ResponsesListProps) 
                 <CardHeader>
                   <CardTitle>{response.surveys[0]?.title}</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-3">
+                <CardContent className="space-y-4">
                   <p>Respondent: {response.respondent_email || 'Anonymous'}</p>
                   <p>Submitted: {new Date(response.submitted_at).toLocaleString()}</p>
-                  <Badge>{Object.keys(response.answers).length} answers</Badge>
+                  <Badge className='border border-white/90 mr-3 rounded-sm p-1'>{Object.keys(response.answers).length} answers</Badge>
 
-                  <Button onClick={() => openModal(response)} variant="outline">
+                  <Button onClick={() => openModal(response)} variant='outline' className="p-3  ">
                     <Eye className="mr-2 h-4 w-4" />
                     View Details
                   </Button>

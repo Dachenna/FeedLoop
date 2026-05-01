@@ -34,7 +34,7 @@ export default function TermsPage() {
 
           <section className="mb-8">
             <h2 className="text-2xl font-semibold mb-4">3. Use of Service</h2>
-            <p>
+            <p> 
               FeedLoop allows you to create surveys, collect responses, and analyze feedback. You agree to use the Service only for lawful purposes and in accordance with these Terms. You may not:
             </p>
             <ul className="list-disc pl-6 mb-4">
@@ -46,7 +46,7 @@ export default function TermsPage() {
             </ul>
           </section>
 
-          <section className="mb-8">
+ <section className="mb-8">
             <h2 className="text-2xl font-semibold mb-4">4. Intellectual Property</h2>
             <p>
               The Service and its original content, features, and functionality are and will remain the exclusive property of FeedLoop and its licensors. The Service is protected by copyright, trademark, and other laws. You may not reproduce, distribute, modify, or create derivative works of our Service without our prior written consent.

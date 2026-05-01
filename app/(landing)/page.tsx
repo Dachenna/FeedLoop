@@ -7,6 +7,7 @@ import { motion, Variants } from "framer-motion"
 import { BackgroundCircles } from "@/components/ui/BGcircles/background-circles"
 import { useState } from 'react'
 import { Switch } from "@/components/ui/switch"
+import Link from "next/link"
 
 
 const containerVariants: Variants = {
@@ -25,6 +26,7 @@ const itemVariants: Variants = {
     transition: { type: "spring", stiffness: 120, damping: 15 },
   },
 }
+
 
 export default function Home() {
   const [isYearly, setIsYearly] = useState(false)
@@ -64,7 +66,7 @@ export default function Home() {
 
             <motion.div variants={itemVariants} className="flex items-center justify-center gap-3 pt-2">
               <Button size="sm" className="h-9 px-4 text-[14px] rounded-md bg-emerald-600 hover:bg-emerald-500 text-white border-none transition-all shadow-lg shadow-emerald-900/20">
-                Get Started
+                <Link href='/auth/signup'>Get Started</Link>
               </Button>
               <Button size="sm" variant="outline" className="h-9 px-4 text-[14px] rounded-md border-slate-700 bg-white/5 backdrop-blur-md hover:bg-white/10">
                 View Demo
@@ -165,7 +167,7 @@ export default function Home() {
                   ))}
                 </ul>
                 <Button className="w-full h-9 bg-white text-black hover:bg-slate-200 text-[14px] font-medium">
-                  Start Free Trial
+                  <Link href="/auth/signup"> Start Free Trial </Link>
                 </Button>
               </CardContent>
             </Card>
@@ -182,7 +184,7 @@ export default function Home() {
                   ))}
                 </ul>
                 <Button className="w-full h-9 bg-white text-black hover:bg-slate-200 text-[14px] font-medium">
-                  Start Free Trial
+                  <Link href="/auth/signup"> Start Free Trial </Link>
                 </Button>
               </CardContent>
             </Card>
@@ -199,7 +201,7 @@ export default function Home() {
                   ))}
                 </ul>
                 <Button className="w-full h-9 bg-white text-black hover:bg-slate-200 text-[14px] font-medium">
-                  Start Free Trial
+                  <Link href="/auth/signup"> Start Free Trial </Link>
                 </Button>
               </CardContent>
             </Card>
@@ -212,7 +214,7 @@ export default function Home() {
             <h2 className="text-[18px] font-bold text-white mb-4">Ready to close your feedback loops?</h2>
             <p className="text-[14px] text-slate-400 mb-8">Join thousands of teams already using FeedLoop to collect and analyze user feedback.</p>
             <Button size="lg" className="h-12 px-8 text-[16px] rounded-md bg-emerald-600 hover:bg-emerald-500 text-white border-none transition-all shadow-lg shadow-emerald-900/20">
-              Start Your Free Trial
+              <Link href="/auth/signup"> Get Started for Free </Link>
             </Button>
           </div>
         </section>
