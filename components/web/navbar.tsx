@@ -64,7 +64,7 @@ export function Navbar() {
                 <Link href="/solution" className="block hover:text-blue-300" onClick={() => setIsOpen(false)}>Solution</Link>
                 <Link href="/contact" className="block hover:text-blue-300" onClick={() => setIsOpen(false)}>Contact Sales</Link>
                 <Link href="/about" className="block hover:text-blue-300" onClick={() => setIsOpen(false)}>About</Link>
-                <Link href="/pricing" className="block hover:text-blue-300" onClick={() => setIsOpen(false)}>Pricing</Link>
+                <Link href="#pricing" className="block hover:text-blue-300" onClick={() => setIsOpen(false)}>Pricing</Link>
               </div>
             </div>
           )}

@@ -8,6 +8,8 @@ import { BackgroundCircles } from "@/components/ui/BGcircles/background-circles"
 import { useState } from 'react'
 import { Switch } from "@/components/ui/switch"
 import Link from "next/link"
+import clsx from "clsx"
+import { useTheme } from "next-themes"
 
 
 const containerVariants: Variants = {
@@ -32,11 +34,10 @@ export default function Home() {
   const [isYearly, setIsYearly] = useState(false)
 
   return (
-    <div className="relative min-h-screen bg-black text-slate-200 overflow-x-hidden selection:bg-emerald-500/30 font-sans antialiased">
+    <div className="relative min-h-screen bg-white dark:bg-black text-slate-200 overflow-x-hidden selection:bg-emerald-500/30 font-sans antialiased">
       {/* Dynamic Background */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <BackgroundCircles 
-          variant="primary" 
           backgroundOnly 
           className="opacity-40"
         />
@@ -56,11 +57,11 @@ export default function Home() {
               v2.0 Live Now
             </motion.div>
 
-            <motion.h1 variants={itemVariants} className="text-[16px] font-semibold tracking-tight text-white uppercase sm:text-lg">
+            <motion.h1 variants={itemVariants} className="text-[16px] font-semibold tracking-tight text-black dark:text-white uppercase sm:text-lg">
               Feedback loops that actually close
             </motion.h1>
 
-            <motion.p variants={itemVariants} className="text-[14px] text-slate-400 max-w-md mx-auto leading-relaxed">
+            <motion.p variants={itemVariants} className="text-[14px] text-slate-700 dark:text-slate-400 max-w-md mx-auto leading-relaxed">
               Collect rich user insights in-app. Analyze with AI. Ship what users actually want without the survey fatigue.
             </motion.p>
 
@@ -68,7 +69,7 @@ export default function Home() {
               <Button size="sm" className="h-9 px-4 text-[14px] rounded-md bg-emerald-600 hover:bg-emerald-500 text-white border-none transition-all shadow-lg shadow-emerald-900/20">
                 <Link href='/auth/signup'>Get Started</Link>
               </Button>
-              <Button size="sm" variant="outline" className="h-9 px-4 text-[14px] rounded-md border-slate-700 bg-white/5 backdrop-blur-md hover:bg-white/10">
+              <Button size="sm" variant="outline" className="h-9 px-4 text-[14px] rounded-md border-emerald-500 bg-black dark:bg-white backdrop-blur-md hover:bg-white/10 hover:shadow-emerald-900/50">
                 View Demo
               </Button>
             </motion.div>
@@ -76,31 +77,12 @@ export default function Home() {
         </section>
 
         {/* Feature Grid with 14px Gaps */}
-        <section className="py-16">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
-            {[
-              { icon: LayoutDashboard, title: "Native Widgets", desc: "Pixel-perfect, theme-aware embeds for your app." },
-              { icon: MessageSquare, title: "Smart Routing", desc: "Auto-sync feedback to Slack, Linear, or Notion." },
-              { icon: BarChart3, title: "AI Insights", desc: "Identify themes and trends automatically with GPT-4." },
-              { icon: Zap, title: "Real-time Updates", desc: "See feedback and analytics update live as users interact." },
-            ].map((feature, i) => (
-              <motion.div key={i} variants={itemVariants} initial="hidden" whileInView="visible" viewport={{ once: true }}>
-                <Card className="bg-slate-900/40 backdrop-blur-xl border-slate-800/50 hover:border-emerald-500/40 transition-colors">
-                  <CardContent className="p-4">
-                    <feature.icon className="h-5 w-5 text-emerald-500 mb-3" />
-                    <h3 className="text-[14px] font-medium text-white mb-1">{feature.title}</h3>
-                    <p className="text-[12px] text-slate-400 leading-normal">{feature.desc}</p>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
-        </section>
+       
 
         {/* Trusted Section */}
         <section className="py-16">
           <div className="text-center mb-8">
-            <h2 className="text-[16px] font-bold text-white uppercase">Trusted by</h2>
+            <h2 className="text-[16px] font-bold text-black dark:text-white uppercase">Trusted by</h2>
           </div>
           <div className="flex justify-center items-center gap-8">
             <div className="text-slate-400 text-[14px]">TechCorp</div>
@@ -112,10 +94,10 @@ export default function Home() {
         {/* Recommendation Section */}
         <section className="py-16">
           <div className="text-center mb-8">
-            <h2 className="text-[16px] font-bold text-white uppercase">What our users say</h2>
+            <h2 className="text-[16px] font-bold text-black dark:text-white uppercase">What our users say</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card className="bg-slate-900/40 backdrop-blur-xl border-slate-800/50">
+            <Card className="bg-transparent dark:bg-slate-900/40 backdrop-blur-xl border-slate-800/50">
               <CardContent className="p-6">
                 <p className="text-[14px] text-slate-300 mb-4">&apos;FeedLoop transformed how we gather and act on user feedback. The AI insights are game-changing.&apos;</p>
                 <div className="flex items-center">

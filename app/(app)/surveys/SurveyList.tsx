@@ -6,7 +6,7 @@ import { createClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { PlusCircle, Eye, Edit, Trash2 } from 'lucide-react';
+import { PlusCircle, Eye, Edit, Trash2, Copy } from 'lucide-react';
 import Link from 'next/link';
 import { toast } from 'sonner';
 import { useSurvey } from '@/lib/contexts/survey-context';
@@ -101,6 +101,22 @@ export default function SurveysList({ initialSurveys }: SurveysListProps) {
     setOpen(true);
   };
 
+  const copyShareLink = (surveyId: string) => {
+    const shareUrl = `${window.location.origin}/survey/${surveyId}`;
+
+   navigator.clipboard.writeText(shareUrl).then(() => {
+    toast.success('Share link copied to clipboard!', {
+       duration: 2000,
+       description: shareUrl,
+       action: {
+         label: "Open Link",
+          onClick: () => window.open(shareUrl, '_blank'),
+       },
+    });
+   }).catch(() => {
+      toast.error('Failed to copy link');
+  });
+};
   return (
     <div className="container mx-auto max-w-7xl px-4 py-8 md:px-6 lg:px-8">
       {/* Header */}
@@ -118,7 +134,7 @@ export default function SurveysList({ initialSurveys }: SurveysListProps) {
           {surveys.map((survey) => (
             <Card
               key={survey.id}
-              className="flex h-full flex-col transition-all hover:shadow-md"
+              className="flex h-full flex-col transition-all hover:shadow-xl"
             >
               <CardHeader className="pb-3">
                 <div className="flex items-start justify-between gap-3">
@@ -162,6 +178,13 @@ export default function SurveysList({ initialSurveys }: SurveysListProps) {
                   <Button variant="outline" size="sm" onClick={() => handleEdit(survey)}>
                     <Edit className="mr-1.5 h-4 w-4" />
                     Edit
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => copyShareLink(survey.id)}>
+                      <Copy className="mr-1.5 h-4 w-4" />
+                      Share
                   </Button>
                   {survey.status === 'draft' && (
                     <Button
