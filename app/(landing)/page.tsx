@@ -69,7 +69,7 @@ export default function Home() {
               <Button size="sm" className="h-9 px-4 text-[14px] rounded-md bg-emerald-600 hover:bg-emerald-500 text-white border-none transition-all shadow-lg shadow-emerald-900/20">
                 <Link href='/auth/signup'>Get Started</Link>
               </Button>
-              <Button size="sm" variant="outline" className="h-9 px-4 text-[14px] rounded-md border-emerald-500 bg-black dark:bg-white backdrop-blur-md hover:bg-white/10 hover:shadow-emerald-900/50">
+              <Button size="sm" variant="outline" className="h-9 px-4 text-[14px] rounded-md border-emerald-500 bg-black backdrop-blur-md hover:bg-white/10 hover:shadow-emerald-900/50">
                 View Demo
               </Button>
             </motion.div>
@@ -97,26 +97,26 @@ export default function Home() {
             <h2 className="text-[16px] font-bold text-black dark:text-white uppercase">What our users say</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card className="bg-transparent dark:bg-slate-900/40 backdrop-blur-xl border-slate-800/50">
+            <Card className="bg-white/10 dark:bg-black/20 backdrop-blur-lg border-white/20 shadow-lg">
               <CardContent className="p-6">
-                <p className="text-[14px] text-slate-300 mb-4">&apos;FeedLoop transformed how we gather and act on user feedback. The AI insights are game-changing.&apos;</p>
+                <p className="text-[14px] text-black dark:text-slate-300 mb-4">&apos;FeedLoop transformed how we gather and act on user feedback. The AI insights are game-changing.&apos;</p>
                 <div className="flex items-center">
                   <div className="h-8 w-8 bg-emerald-500 rounded-full mr-3"></div>
                   <div>
-                    <p className="text-[12px] font-medium text-white">Sarah Chen</p>
+                    <p className="text-[12px] font-medium text-blackdark:text-white">Sarah Chen</p>
                     <p className="text-[10px] text-slate-400">Product Manager, TechCorp</p>
                   </div>
                 </div>
               </CardContent>
             </Card>
-            <Card className="bg-slate-900/40 backdrop-blur-xl border-slate-800/50">
+            <Card className="bg-white/10 dark:bg-black/20 backdrop-blur-lg border-white/20 shadow-lg">
               <CardContent className="p-6">
-                <p className="text-[14px] text-slate-300 mb-4">&apos;The native widgets integrate seamlessly, and the real-time updates keep us informed.&apos;</p>
+                <p className="text-[14px] text-black dark:text-slate-300 mb-4">&apos;The native widgets integrate seamlessly, and the real-time updates keep us informed.&apos;</p>
                 <div className="flex items-center">
                   <div className="h-8 w-8 bg-emerald-500 rounded-full mr-3"></div>
                   <div>
-                    <p className="text-[12px] font-medium text-white">Mike Johnson</p>
-                    <p className="text-[10px] text-slate-400">CTO, InnovateLabs</p>
+                    <p className="text-[12px] font-medium text-black dark:text-white">Mike Johnson</p>
+                    <p className="text-[10px] text-slate-400 dark:text-slate-400">CTO, InnovateLabs</p>
                   </div>
                 </div>
               </CardContent>
@@ -128,22 +128,22 @@ export default function Home() {
            
         <section className="py-16 border-t border-slate-800/50">
           <div className="text-center mb-4">
-            <h2 className="text-[16px] font-bold text-white uppercase">Simple Pricing</h2>
+            <h2 className="text-[16px] font-bold text-black dark:text-white uppercase">Simple Pricing</h2>
           </div>
           <div className="flex items-center justify-center gap-4 mb-8">
-            <span className={`text-sm ${!isYearly ? 'text-white font-medium' : 'text-slate-400'}`}>Monthly</span>
+            <span className={`text-sm ${!isYearly ? 'text-black dark:text-white font-medium' : 'text-slate-500'}`}>Monthly</span>
             <Switch checked={isYearly} onCheckedChange={setIsYearly} />
-            <span className={`text-sm ${isYearly ? 'text-white font-medium' : 'text-slate-400'}`}>Yearly</span>
+            <span className={`text-sm ${isYearly ? 'text-black dark:text-white font-medium' : 'text-slate-500'}`}>Yearly</span>
             {isYearly && <span className="text-xs text-emerald-400 font-medium ml-2">Save 20%</span>}
           </div>
           <div className="max-w-md mx-auto flex flex-col md:flex-row gap-6">
             <Card className="bg-emerald-500/5 border-emerald-500/20 backdrop-blur-sm hover:border-2 hover:border-emerald-500/60 transition-all duration-200">
               <CardContent className="p-4 flex flex-col items-center">
                 <span className="text-[12px] text-emerald-400 font-bold uppercase mb-2">Free Plan</span>
-                <div className="text-[16px] font-bold text-white mb-4">$0<span className="text-[14px] font-normal text-slate-500">/mo</span></div>
+                <div className="text-[16px] font-bold text-gray-700 dark:text-white mb-4">$0<span className="text-[14px] font-normal text-slate-500">/mo</span></div>
                 <ul className="w-full space-y-3 mb-6">
                   {["Unlimited Projects", "AI Sentiment Analysis", "Custom Branding"].map((item, idx) => (
-                    <li key={idx} className="flex items-center text-[12px] text-slate-300">
+                    <li key={idx} className="flex items-center text-[12px] text-gray-600 dark:text-slate-300">
                       <Check className="h-3 w-3 text-emerald-500 mr-2" /> {item}
                     </li>
                   ))}
@@ -157,10 +157,10 @@ export default function Home() {
             <Card className="bg-emerald-500/5 border-emerald-500/20 backdrop-blur-sm hover:border-2 hover:border-emerald-500/60 transition-all duration-200">
               <CardContent className="p-4 flex flex-col items-center">
                 <span className="text-[12px] text-emerald-400 font-bold uppercase mb-2">Pro Plan</span>
-                <div className="text-[16px] font-bold text-white mb-4">${isYearly ? '182' : '19'}<span className="text-[14px] font-normal text-slate-500">{isYearly ? '/year' : '/mo'}</span></div>
+                <div className="text-[16px] font-bold text=black dark:text-white mb-4">${isYearly ? '182' : '19'}<span className="text-[14px] font-normal text-slate-500">{isYearly ? '/year' : '/mo'}</span></div>
                 <ul className="w-full space-y-3 mb-6">
                   {["Unlimited Projects", "AI Sentiment Analysis", "Custom Branding"].map((item, idx) => (
-                    <li key={idx} className="flex items-center text-[12px] text-slate-300">
+                    <li key={idx} className="flex items-center text-[12px] text-gray-600 dark:text-slate-300">
                       <Check className="h-3 w-3 text-emerald-500 mr-2" /> {item}
                     </li>
                   ))}
@@ -174,10 +174,10 @@ export default function Home() {
             <Card className="bg-emerald-500/5 border-emerald-500/20 hover:border-2 hover:border-emerald-500/60 backdrop-blur-sm hover:translate-y-1 duration-200">
               <CardContent className="p-4 flex flex-col items-center">
                 <span className="text-[12px] text-emerald-400 font-bold uppercase mb-2">Enterprise Plan</span>
-                <div className="text-[16px] font-bold text-white mb-4">${isYearly ? '374' : '39'}<span className="text-[14px] font-normal text-slate-500">{isYearly ? '/year' : '/mo'}</span></div>
+                <div className="text-[16px] font-bold text-gray-700 dark:text-white mb-4">${isYearly ? '374' : '39'}<span className="text-[14px] font-normal text-slate-500">{isYearly ? '/year' : '/mo'}</span></div>
                 <ul className="w-full space-y-3 mb-6">
                   {["Unlimited Projects", "AI Sentiment Analysis", "Custom Branding"].map((item, idx) => (
-                    <li key={idx} className="flex items-center text-[12px] text-slate-300">
+                    <li key={idx} className="flex items-center text-[12px] text-gray-600 dark:text-slate-300">
                       <Check className="h-3 w-3 text-emerald-500 mr-2" /> {item}
                     </li>
                   ))}
@@ -193,8 +193,8 @@ export default function Home() {
         {/* CTA Section */}
         <section className="py-16">
           <div className="text-center">
-            <h2 className="text-[18px] font-bold text-white mb-4">Ready to close your feedback loops?</h2>
-            <p className="text-[14px] text-slate-400 mb-8">Join thousands of teams already using FeedLoop to collect and analyze user feedback.</p>
+            <h2 className="text-[18px] font-bold text-gray-700 dark:text-white mb-4">Ready to close your feedback loops?</h2>
+            <p className="text-[14px] text-slate-600 mb-8">Join thousands of teams already using FeedLoop to collect and analyze user feedback.</p>
             <Button size="lg" className="h-12 px-8 text-[16px] rounded-md bg-emerald-600 hover:bg-emerald-500 text-white border-none transition-all shadow-lg shadow-emerald-900/20">
               <Link href="/auth/signup"> Get Started for Free </Link>
             </Button>
