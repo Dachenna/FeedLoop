@@ -39,7 +39,7 @@ const AnimatedGrid = () => (
     animate={{ backgroundPosition: ["0% 0%", "100% 100%"] }}
     transition={{ duration: 40, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
   >
-    <div className="h-full w-full [background-image:repeating-linear-gradient(100deg,#64748B_0%,#64748B_1px,transparent_1px,transparent_4%)] opacity-20" />
+    <div className="h-full w-full bg-[repeating-linear-gradient(100deg,#64748B_0%,#64748B_1px,transparent_1px,transparent_4%)] opacity-20" />
   </motion.div>
 );
 
@@ -66,12 +66,12 @@ export function BackgroundCircles({
       <AnimatedGrid />
 
       {/* Animated Circles */}
-      <motion.div className="absolute h-[480px] w-[480px]">
+      <motion.div className="absolute h-120 w-120">
         {[0, 1, 2].map((i) => (
           <motion.div
             key={i}
             className={clsx(
-              "absolute inset-0 rounded-full border-2 bg-gradient-to-br to-transparent",
+              "absolute inset-0 rounded-full border-2 bg-linear-to-br to-transparent",
               variantStyles.border[i],
               variantStyles.gradient
             )}
@@ -106,7 +106,7 @@ export function BackgroundCircles({
           <h1
             className={clsx(
               "text-5xl font-bold tracking-tight md:text-7xl",
-              "bg-gradient-to-b from-slate-950 to-slate-700 dark:from-slate-100 dark:to-slate-300 bg-clip-text text-transparent",
+              "bg-linear-to-b from-slate-950 to-slate-700 dark:from-slate-100 dark:to-slate-300 bg-clip-text text-transparent",
               "drop-shadow-[0_0_32px_rgba(16,185,129,0.4)] dark:drop-shadow-[0_0_32px_rgba(168,85,247,0.4)]"
             )}
           >
@@ -128,7 +128,7 @@ export function BackgroundCircles({
       )}
 
       {/* Extra glow layers */}
-      <div className="absolute inset-0 [mask-image:radial-gradient(90%_60%_at_50%_50%,#000_40%,transparent)]">
+      <div className="absolute inset-0 mask-[radial-gradient(90%_60%_at_50%_50%,#000_40%,transparent)]">
         <div 
           className={clsx(
             "absolute inset-0 blur-[120px]",

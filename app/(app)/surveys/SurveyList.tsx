@@ -217,7 +217,7 @@ export default function SurveysList({ initialSurveys }: SurveysListProps) {
           <p className="mt-3 max-w-md text-muted-foreground">
             Start collecting real user feedback — create your first survey in seconds.
           </p>
-          <Button size="lg" className="mt-6 dark:text-grey-300" onClick={() => setOpen(true)}>
+          <Button size="lg" className="mt-6 dark:text-gray-300" onClick={() => setOpen(true)}>
             <PlusCircle className="mr-2 h-5 w-5" />
             Create Your First Survey
           </Button>
