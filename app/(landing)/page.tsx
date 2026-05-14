@@ -2,14 +2,12 @@
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { MessageSquare, BarChart3, LayoutDashboard, Check, Zap } from "lucide-react"
+import { Check } from "lucide-react"
 import { motion, Variants } from "framer-motion"
 import { BackgroundCircles } from "@/components/ui/BGcircles/background-circles"
 import { useState } from 'react'
 import { Switch } from "@/components/ui/switch"
 import Link from "next/link"
-import clsx from "clsx"
-import { useTheme } from "next-themes"
 
 
 const containerVariants: Variants = {
@@ -103,7 +101,7 @@ export default function Home() {
                 <div className="flex items-center">
                   <div className="h-8 w-8 bg-emerald-500 rounded-full mr-3"></div>
                   <div>
-                    <p className="text-[12px] font-medium text-blackdark:text-white">Sarah Chen</p>
+                    <p className="text-[12px] font-medium text-black dark:text-white">Sarah Chen</p>
                     <p className="text-[10px] text-slate-400">Product Manager, TechCorp</p>
                   </div>
                 </div>
@@ -157,7 +155,7 @@ export default function Home() {
             <Card className="bg-emerald-500/5 border-emerald-500/20 backdrop-blur-sm hover:border-2 hover:border-emerald-500/60 transition-all duration-200">
               <CardContent className="p-4 flex flex-col items-center">
                 <span className="text-[12px] text-emerald-400 font-bold uppercase mb-2">Pro Plan</span>
-                <div className="text-[16px] font-bold text=black dark:text-white mb-4">${isYearly ? '182' : '19'}<span className="text-[14px] font-normal text-slate-500">{isYearly ? '/year' : '/mo'}</span></div>
+                <div className="text-[16px] font-bold text-black dark:text-white mb-4">${isYearly ? '182' : '19'}<span className="text-[14px] font-normal text-slate-500">{isYearly ? '/year' : '/mo'}</span></div>
                 <ul className="w-full space-y-3 mb-6">
                   {["Unlimited Projects", "AI Sentiment Analysis", "Custom Branding"].map((item, idx) => (
                     <li key={idx} className="flex items-center text-[12px] text-gray-600 dark:text-slate-300">
