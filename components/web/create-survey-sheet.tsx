@@ -105,6 +105,7 @@ export function CreateSurveySheet({ open, onOpenChange, onSave }: CreateSurveySh
 
   useEffect(() => {
     if (surveyToEdit && open) {
+      // eslint-disable-next-line
       updateFormData({
         title: surveyToEdit.title || '',
         description: surveyToEdit.description || '',

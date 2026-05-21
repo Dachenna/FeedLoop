@@ -37,9 +37,7 @@ export default async function Page() {
                 <p className="text-muted-foreground mb-8 max-w-md">
                   Create your first survey to start collecting real user feedback.
                 </p>
-                <CreateSurveyButton open={false} onOpenChange={function (open: boolean): void {
-                    throw new Error("Function not implemented.")
-                  } } />
+                <CreateSurveyButton />
               </div>
             )}
           </div>
