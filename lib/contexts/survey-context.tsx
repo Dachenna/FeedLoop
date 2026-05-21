@@ -1,12 +1,29 @@
 'use client'
 import { createContext, useContext, useState } from 'react';
 
+type Question = {
+  id: string
+  type: 'text' | 'multiple_choice' | 'rating'
+  text: string
+  options?: string[]
+  settings?: {
+    min: number
+    max: number
+    lowLabel?: string
+    highLabel?: string
+  }
+  required: boolean
+  chartType?: 'pie' | 'bar' | 'histogram' | 'none'
+}
+
 type Survey = {
   id: string;
   title: string;
+  description?: string;
   survey_type: string;
   status: string;
   anonymous: boolean;
+  questions?: Question[];
   created_at: string;
 };
 

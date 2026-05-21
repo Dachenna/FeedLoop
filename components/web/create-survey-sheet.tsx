@@ -1,7 +1,7 @@
 // components/survey/create-survey-sheet.tsx
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import {
   Sheet,
   SheetContent,
@@ -9,7 +9,6 @@ import {
   SheetTitle,
   SheetDescription,
   SheetFooter,
-  SheetClose,
 } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -68,15 +67,25 @@ export interface CreateSurveySheetProps {
 
 export function CreateSurveySheet({ open, onOpenChange, onSave }: CreateSurveySheetProps) {
   const { surveyToEdit, setSurveyToEdit } = useSurvey()
-  const [title, setTitle] = useState('')
-  const [description, setDescription] = useState('')
-  const [surveyType, setSurveyType] = useState<SurveyType>('nps')
-  const [anonymous, setAnonymous] = useState(false)
+  const [formData, setFormData] = useState({
+    title: '',
+    description: '',
+    surveyType: 'nps' as SurveyType,
+    anonymous: false,
+    questions: [] as Question[],
+  })
   const [loading, setLoading] = useState(false)
-  const [questions, setQuestions] = useState<Question[]>([])
   const [existingSurveys, setExistingSurveys] = useState<{ id: string; title: string; questions: Question[] }[]>([])
 
   const isEditing = !!surveyToEdit
+
+  // Destructure for easier access
+  const { title, description, surveyType, anonymous, questions } = formData
+
+  // Helper to update form data
+  const updateFormData = useCallback((updates: Partial<typeof formData>) => {
+    setFormData((prev) => ({ ...prev, ...updates }))
+  }, [])
 
   useEffect(() => {
     if (open) {
@@ -96,25 +105,35 @@ export function CreateSurveySheet({ open, onOpenChange, onSave }: CreateSurveySh
 
   useEffect(() => {
     if (surveyToEdit && open) {
-      setTitle(surveyToEdit.title || '')
-      setDescription(surveyToEdit.description || '')
-      setSurveyType(surveyToEdit.survey_type as SurveyType || 'nps')
-      setAnonymous(surveyToEdit.anonymous || false)
-      setQuestions(surveyToEdit.questions?.map((q: any) => ({ ...q, id: q.id || crypto.randomUUID() })) || [])
+      updateFormData({
+        title: surveyToEdit.title || '',
+        description: surveyToEdit.description || '',
+        surveyType: (surveyToEdit.survey_type as SurveyType) || 'nps',
+        anonymous: surveyToEdit.anonymous || false,
+        questions: surveyToEdit.questions?.map((q: Question) => ({
+          ...q,
+          id: q.id || crypto.randomUUID(),
+        })) || [],
+      })
     } else if (!surveyToEdit && open) {
-      // Reset for new survey
-      setTitle('')
-      setDescription('')
-      setSurveyType('nps')
-      setAnonymous(false)
-      setQuestions([])
+      updateFormData({
+        title: '',
+        description: '',
+        surveyType: 'nps',
+        anonymous: false,
+        questions: [],
+      })
     }
-  }, [surveyToEdit, open])
+  }, [surveyToEdit, open, updateFormData])
 
   const handleImport = (qs: unknown) => {
     const parsed = typeof qs === 'string' ? JSON.parse(qs) : qs
     if (Array.isArray(parsed)) {
-      setQuestions(parsed.map((q: unknown) => ({ ...q, id: crypto.randomUUID() } as Question)))
+      const importedQuestions = parsed.map((q: unknown) => {
+        const question = q as Partial<Question>
+        return { ...question, id: crypto.randomUUID() } as Question
+      })
+      updateFormData({ questions: importedQuestions })
       toast.success('Questions imported!')
     }
   }
@@ -128,12 +147,11 @@ export function CreateSurveySheet({ open, onOpenChange, onSave }: CreateSurveySh
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event
-    if (active.id !== over?.id) {
-      setQuestions((items) => {
-        const oldIndex = items.findIndex((q) => q.id === active.id)
-        const newIndex = items.findIndex((q) => q.id === over.id)
-        return arrayMove(items, oldIndex, newIndex)
-      })
+    if (over && active.id !== over.id) {
+      const oldIndex = questions.findIndex((q) => q.id === active.id)
+      const newIndex = questions.findIndex((q) => q.id === over.id)
+      const reorderedQuestions = arrayMove([...questions], oldIndex, newIndex)
+      updateFormData({ questions: reorderedQuestions })
     }
   }
 
@@ -148,50 +166,53 @@ export function CreateSurveySheet({ open, onOpenChange, onSave }: CreateSurveySh
     if (type === 'rating') {
       newQ.settings = { min: 1, max: 5, lowLabel: 'Not satisfied', highLabel: 'Very satisfied' }
     }
-    setQuestions((prev) => [...prev, newQ])
+    updateFormData({ questions: [...questions, newQ] })
   }
 
-  const updateQuestion = (id: string, field: keyof Question, value: any) => {
-    setQuestions((prev) =>
-      prev.map((q) => (q.id === id ? { ...q, [field]: value } : q))
+  const updateQuestion = (id: string, field: keyof Question, value: unknown) => {
+    const updatedQuestions = questions.map((q) =>
+      q.id === id ? { ...q, [field]: value } : q
     )
+    updateFormData({ questions: updatedQuestions })
   }
 
   const addOption = (id: string) => {
-    setQuestions((prev) =>
-      prev.map((q) =>
-        q.id === id && q.options
-          ? { ...q, options: [...q.options, `Option ${q.options.length + 1}`] }
-          : q
-      )
+    const updatedQuestions = questions.map((q) =>
+      q.id === id && q.options
+        ? { ...q, options: [...q.options, `Option ${q.options.length + 1}`] }
+        : q
     )
+    updateFormData({ questions: updatedQuestions })
   }
 
   const updateOption = (id: string, idx: number, value: string) => {
-    setQuestions((prev) =>
-      prev.map((q) =>
-        q.id === id && q.options
-          ? {
-              ...q,
-              options: q.options.map((opt, i) => (i === idx ? value : opt)),
-            }
-          : q
-      )
+    const updatedQuestions = questions.map((q) =>
+      q.id === id && q.options
+        ? {
+            ...q,
+            options: q.options.map((opt, i) => (i === idx ? value : opt)),
+          }
+        : q
     )
+    updateFormData({ questions: updatedQuestions })
   }
 
-  const updateRatingSetting = (id: string, key: keyof NonNullable<Question['settings']>, value: unknown) => {
-    setQuestions((prev) =>
-      prev.map((q) =>
-        q.id === id && q.settings
-          ? { ...q, settings: { ...q.settings, [key]: value } }
-          : q
-      )
+  const updateRatingSetting = (
+    id: string,
+    key: keyof NonNullable<Question['settings']>,
+    value: number | string
+  ) => {
+    const updatedQuestions = questions.map((q) =>
+      q.id === id && q.settings
+        ? { ...q, settings: { ...q.settings, [key]: value } }
+        : q
     )
+    updateFormData({ questions: updatedQuestions })
   }
 
   const removeQuestion = (id: string) => {
-    setQuestions((prev) => prev.filter((q) => q.id !== id))
+    const updatedQuestions = questions.filter((q) => q.id !== id)
+    updateFormData({ questions: updatedQuestions })
   }
 
   const handleSave = async () => {
@@ -212,23 +233,23 @@ export function CreateSurveySheet({ open, onOpenChange, onSave }: CreateSurveySh
 
     setLoading(true)
 
-    const formData = new FormData()
-    formData.append('title', title)
-    formData.append('description', description)
-    formData.append('survey_type', surveyType)
-    formData.append('anonymous', anonymous ? 'true' : 'false')
+    const submitData = new FormData()
+    submitData.append('title', title)
+    submitData.append('description', description)
+    submitData.append('survey_type', surveyType)
+    submitData.append('anonymous', anonymous ? 'true' : 'false')
     if (!isEditing) {
-      formData.append('status', 'draft')
+      submitData.append('status', 'draft')
     }
-    formData.append('questions', JSON.stringify(questions.map((q, i) => ({
+    submitData.append('questions', JSON.stringify(questions.map((q, i) => ({
       ...q,
       position: i + 1,
     }))))
 
     try {
       const result = isEditing 
-        ? await updateSurveyAction(formData, surveyToEdit.id)
-        : await createSurveyAction(formData)
+        ? await updateSurveyAction(submitData, surveyToEdit.id)
+        : await createSurveyAction(submitData)
 
       if (result.error) {
         toast.error(result.error)
@@ -237,11 +258,13 @@ export function CreateSurveySheet({ open, onOpenChange, onSave }: CreateSurveySh
 
       toast.success(isEditing ? 'Survey updated successfully!' : 'Survey created successfully!')
       // Reset form
-      setTitle('')
-      setDescription('')
-      setSurveyType('nps')
-      setAnonymous(false)
-      setQuestions([])
+      updateFormData({
+        title: '',
+        description: '',
+        surveyType: 'nps',
+        anonymous: false,
+        questions: [],
+      })
       setSurveyToEdit(null)
       onSave?.({ title, description, surveyType, anonymous, questions })
       onOpenChange(false)
@@ -267,18 +290,18 @@ export function CreateSurveySheet({ open, onOpenChange, onSave }: CreateSurveySh
             <div className="space-y-4">
               <div className="space-y-2">
                 <Label>Title *</Label>
-                <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="e.g. Customer Feedback" />
+                <Input value={title} onChange={(e) => updateFormData({ title: e.target.value })} placeholder="e.g. Customer Feedback" />
               </div>
 
               <div className="space-y-2">
                 <Label>Description</Label>
-                <Textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Optional..." />
+                <Textarea value={description} onChange={(e) => updateFormData({ description: e.target.value })} placeholder="Optional..." />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label>Type</Label>
-                  <Select value={surveyType} onValueChange={(v) => setSurveyType(v as SurveyType)}>
+                  <Select value={surveyType} onValueChange={(v) => updateFormData({ surveyType: v as SurveyType })}>
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
@@ -293,7 +316,7 @@ export function CreateSurveySheet({ open, onOpenChange, onSave }: CreateSurveySh
 
                 <div className="flex items-end pb-2">
                   <div className="flex items-center space-x-2">
-                    <Switch checked={anonymous} onCheckedChange={setAnonymous} />
+                    <Switch checked={anonymous} onCheckedChange={(checked) => updateFormData({ anonymous: checked })} />
                     <Label>Anonymous responses</Label>
                   </div>
                 </div>
@@ -391,10 +414,10 @@ function SortableQuestion({
   onRemove,
 }: {
   q: Question
-  onUpdate: (id: string, field: keyof Question, value: any) => void
+  onUpdate: (id: string, field: keyof Question, value: unknown) => void
   onAddOption: (id: string) => void
   onUpdateOption: (id: string, idx: number, value: string) => void
-  onUpdateRatingSetting: (id: string, key: keyof NonNullable<Question['settings']>, value: any) => void
+  onUpdateRatingSetting: (id: string, key: keyof NonNullable<Question['settings']>, value: number | string) => void
   onRemove: (id: string) => void
 }) {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: q.id })
