@@ -135,8 +135,8 @@ export default function TermsPage() {
               If you have any questions about these Terms, please contact us at:
             </p>
             <p>
-              Email: [Your Contact Email]<br />
-              Address: [Your Business Address]
+              Email: davidinprograming@gmail.com<br />
+            
             </p>
           </section>
         </div>
