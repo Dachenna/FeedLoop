@@ -34,7 +34,12 @@ export default async function TeamPage() {
           </p>
         </div>
 
-        <InviteTeamMemberSheet />
+        <div className="flex items-center gap-2">
+          <Button variant="default" size="sm">
+            <Plus className="mr-2 h-4 w-4" /> Invite
+          </Button>
+          <InviteTeamMemberSheet />
+        </div>
       </div>
 
       <Card>
