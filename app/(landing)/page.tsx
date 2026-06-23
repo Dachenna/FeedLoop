@@ -51,7 +51,7 @@ export default function Home() {
             className="space-y-3.5"
           >
             <motion.div variants={itemVariants} className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-[12px] font-medium text-emerald-400 uppercase tracking-wider">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="h-1.5 w-1.5 rounded-full dark:bg-purple-700 bg-emerald-500 animate-pulse" />
               v2.0 Live Now
             </motion.div>
 
@@ -64,7 +64,7 @@ export default function Home() {
             </motion.p>
 
             <motion.div variants={itemVariants} className="flex items-center justify-center gap-3 pt-2">
-              <Button size="sm" className="h-9 px-4 text-[14px] rounded-md bg-emerald-600 hover:bg-emerald-500 text-white border-none transition-all shadow-lg shadow-emerald-900/20">
+              <Button size="sm" className="h-9 px-4 text-[14px] rounded-md bg-emerald-600 dark:bg-purple-600 hover:bg-emerald-500 text-white border-none transition-all shadow-lg shadow-emerald-900/20">
                 <Link href='/auth/signup'>Get Started</Link>
               </Button>
               <Button size="sm" variant="outline" className="h-9 px-4 text-[14px] rounded-md border-emerald-500 bg-black backdrop-blur-md hover:bg-white/10 hover:shadow-emerald-900/50">
