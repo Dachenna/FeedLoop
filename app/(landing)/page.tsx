@@ -50,7 +50,7 @@ export default function Home() {
             animate="visible"
             className="space-y-3.5"
           >
-            <motion.div variants={itemVariants} className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-[12px] font-medium text-emerald-400 uppercase tracking-wider">
+            <motion.div variants={itemVariants} className="inline-flex items-center gap-2 px-3 py-1 rounded-full dark:bg-purple-600/10 bg-emerald-500/10 border dark:border-pink-600/40 border-emerald-500/20 text-[12px] font-medium text-emerald-400 uppercase tracking-wider">
               <span className="h-1.5 w-1.5 rounded-full dark:bg-purple-700 bg-emerald-500 animate-pulse" />
               v2.0 Live Now
             </motion.div>
