@@ -1,12 +1,7 @@
 import type { Metadata } from "next";
-import { Geist, Inter } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "../components/ui/theme-provider";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
 
 const inter = Inter({
   variable: "--font-inter",
@@ -57,8 +52,8 @@ export default function RootLayout({
               "@type": "SoftwareApplication",
               "name": "FeedLoop",
               "description": "FeedLoop is a powerful SaaS platform for creating surveys, collecting feedback, and analyzing responses to improve your products and services.",
-              "url": "https://feedloop-five.vercel.app/",
-              "image": "https://feedloop-five.vercel.app/",
+              "url": "https://feed-loop-two.vercel.app/",
+              "image": "https://feed-loop-two.vercel.app/",
               "applicationCategory": "BusinessApplication",
               "operatingSystem": "Web",
               "offers": {
@@ -74,10 +69,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body
-        suppressHydrationWarning={true}
-        className={`${geistSans.variable} ${inter.variable} antialiased`}
-      >
+      <body suppressHydrationWarning={true} className={`${inter.variable} antialiased`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
