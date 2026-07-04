@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { createServerClient } from '@supabase/ssr'
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const url = request.nextUrl.clone()
 
   const supabase = createServerClient(
@@ -47,11 +47,12 @@ export async function middleware(request: NextRequest) {
 
   const path = request.nextUrl.pathname
 
-  // Admin-only paths - adjust as needed
-  const adminOnly = ['/team']
+  // Public authenticated paths can be accessed by any signed-in user.
+  // Only keep admin-only protection here for truly restricted routes.
+  const adminOnly: string[] = []
   if (adminOnly.some((p) => path.startsWith(p))) {
     if (!role || (role !== 'admin' && role !== 'owner')) {
-      url.pathname = '/auth/login'
+      url.pathname = '/dashboard'
       return NextResponse.redirect(url)
     }
   }

@@ -35,7 +35,7 @@ export default function LoginPage() {
 
     const supabase = createClient()
 
-    const { error } = await supabase.auth.signInWithPassword({
+    const { data: signInData, error } = await supabase.auth.signInWithPassword({
       email: data.email,
       password: data.password,
     })
@@ -43,6 +43,20 @@ export default function LoginPage() {
       setError(error.message)
       setIsLoading(false)
       return
+    }
+
+    // Send tokens to the server so it can set HttpOnly cookies for SSR
+    try {
+      await fetch('/api/auth/session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          access_token: signInData?.session?.access_token,
+          refresh_token: signInData?.session?.refresh_token,
+        }),
+      })
+    } catch (e) {
+      console.error('Failed to set server session', e)
     }
 
     router.push('/dashboard')
