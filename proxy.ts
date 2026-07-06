@@ -22,7 +22,7 @@ export async function proxy(request: NextRequest) {
 
   // Get JWT claims for the current session
   const { data } = await supabase.auth.getClaims()
-  const claims: unknown = data?.claims
+  const claims: any = data?.claims
 
   // If no session, redirect to login
   if (!claims || !claims.sub) {
@@ -42,7 +42,7 @@ export async function proxy(request: NextRequest) {
       .limit(1)
       .maybeSingle()
 
-    role = (tm as unknown)?.role
+    role = (tm as any)?.role
   }
 
   const path = request.nextUrl.pathname

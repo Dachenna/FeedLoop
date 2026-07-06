@@ -21,7 +21,7 @@ export default async function TeamPage() {
       joined_at,
       user:auth.users!user_id (email)
     `)
-    .eq('workspace_id', /* TODO: Add workspace_id logic later */)
+    // .eq('workspace_id', /* TODO: Add workspace_id logic later */)
     .order('joined_at', { ascending: false });
 
   return (
@@ -35,9 +35,6 @@ export default async function TeamPage() {
         </div>
 
         <div className="flex items-center gap-2">
-          <Button variant="default" size="sm">
-            <Plus className="mr-2 h-4 w-4" /> Invite
-          </Button>
           <InviteTeamMemberSheet />
         </div>
       </div>

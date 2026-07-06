@@ -45,7 +45,7 @@ export default function InviteTeamMemberSheet() {
       } else {
         toast.error(data.error || "Failed to send invitation");
       }
-    } catch (err) {
+    } catch (error) {
       toast.error("Something went wrong");
     } finally {
       setLoading(false);
