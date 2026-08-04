@@ -8,6 +8,8 @@ import { BackgroundCircles } from "@/components/ui/BGcircles/background-circles"
 import { useState } from 'react'
 import { Switch } from "@/components/ui/switch"
 import Link from "next/link"
+import { createCheckout } from "@/app/action/payment"
+import { toast } from "sonner"
 
 
 const containerVariants: Variants = {
@@ -26,6 +28,18 @@ const itemVariants: Variants = {
     transition: { type: "spring", stiffness: 120, damping: 15 },
   },
 }
+
+const handlePlanSelect = async (plan: 'free' | 'pro-monthly' | 'pro-yearly') => {
+  const result = await createCheckout(plan);
+
+  if (result.error) {
+    toast.error(result.error);
+  } else if (result.checkoutUrl) {
+    window.location.href = result.checkoutUrl;
+  } else {
+    toast.success(result.message || 'Free plan activated!');
+  }
+};
 
 
 export default function Home() {
@@ -254,8 +268,9 @@ export default function Home() {
                     </li>
                   ))}
                 </ul>
-                <Button className="w-full h-9 bg-white text-black hover:bg-slate-200 text-[14px] font-medium">
-                  <Link href="/auth/signup"> Start Free Trial </Link>
+                <Button className="w-full h-9 bg-white text-black hover:bg-slate-200 text-[14px] font-medium"
+                  onClick={() => handlePlanSelect('free')}>
+                   Start Free Trial 
                 </Button>
               </CardContent>
             </Card>
@@ -263,7 +278,7 @@ export default function Home() {
             <Card className="bg-emerald-500/5 border-emerald-500/20 backdrop-blur-sm hover:border-2 hover:border-emerald-500/60 transition-all duration-200">
               <CardContent className="p-4 flex flex-col items-center">
                 <span className="text-[12px] text-emerald-400 font-bold uppercase mb-2">Pro Plan</span>
-                <div className="text-[16px] font-bold text-black dark:text-white mb-4">${isYearly ? '182' : '19'}<span className="text-[14px] font-normal text-slate-500">{isYearly ? '/year' : '/mo'}</span></div>
+                <div className="text-[16px] font-bold text-black dark:text-white mb-4">${isYearly ? '89a' : '9'}<span className="text-[14px] font-normal text-slate-500">{isYearly ? '/year' : '/mo'}</span></div>
                 <ul className="w-full space-y-3 mb-6">
                   {["Unlimited Projects", "AI Sentiment Analysis", "Custom Branding"].map((item, idx) => (
                     <li key={idx} className="flex items-center text-[12px] text-gray-600 dark:text-slate-300">
@@ -271,8 +286,9 @@ export default function Home() {
                     </li>
                   ))}
                 </ul>
-                <Button className="w-full h-9 bg-white text-black hover:bg-slate-200 text-[14px] font-medium">
-                  <Link href="/auth/signup"> Start Free Trial </Link>
+                <Button className="w-full h-9 bg-white text-black hover:bg-slate-200 text-[14px] font-medium"
+                    onClick={() =>handlePlanSelect('pro-monthly')}>
+                      Subscribe - $9/month
                 </Button>
               </CardContent>
             </Card>
