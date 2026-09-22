@@ -48,7 +48,7 @@ export default function Home() {
   return (
     <div className="relative min-h-screen bg-white dark:bg-black text-slate-200 overflow-x-hidden selection:bg-emerald-500/30 font-sans antialiased">
       {/* Dynamic Background */}
-      <div className="fixed inset-0 z-0 pointer-events-none">
+      <div className=" inset-0 z-0 pointer-events-none">
         <BackgroundCircles 
           backgroundOnly 
           className="opacity-40"
