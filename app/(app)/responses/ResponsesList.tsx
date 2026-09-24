@@ -7,6 +7,9 @@ import { Badge } from '@/components/ui/badge';
 import { Eye, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { createClient } from '@/lib/supabase/client';
+import { notify } from '@/lib/notify';
+
+// Notify: used to inform users about response actions (delete success/error)
 
 type Response = {
   id: string;
@@ -38,11 +41,11 @@ export default function ResponsesList({ initialResponses }: ResponsesListProps) 
     const { error } = await supabase.from('responses').delete().eq('id', id);
     if (error) {
       console.error('Failed to delete response:', error);
-      toast.error('Failed to delete response');
+      notify.error('Failed to delete response');
     } else {
       setResponses(responses.filter(r => r.id !== id));
       setSelectedResponse(null);
-      toast.success('Response deleted successfully');
+      notify.success('Response deleted successfully');
     }
   };
 

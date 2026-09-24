@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Card } from '@/components/ui/card';
 import { toast } from 'sonner';
+import { notify } from '@/lib/notify';
 import { submitResponseAction } from '@/components/web/response';
 import { Heart, MessageSquare, Star } from 'lucide-react';
 import { BackgroundCircles } from '@/components/ui/BGcircles/background-circles';
@@ -56,11 +57,11 @@ export default function SurveyForm({ survey }: { survey: SurveyData }) {
     setLoading(false);
 
     if (result.error) {
-      toast.error(result.error);
+      notify.error(result.error);
       return;
     }
 
-    toast.success('Thank you for your feedback!');
+    notify.success('Thank you for your feedback!', 'Your response has been recorded.');
   };
 
   const getQuestionIcon = (type: string) => {

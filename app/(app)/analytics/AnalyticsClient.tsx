@@ -5,8 +5,11 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Sparkles, Loader2 } from 'lucide-react';
-import { toast } from 'sonner';
 import { generateSurveyInsights } from '@/app/action/ai';
+import { notify } from '@/lib/notify';
+
+// Notify: displays user-facing messages for actions (success/error/info).
+// Avoid invoking notify at module load to prevent toast popping on import.
 
 type Survey = {
   id: string;
@@ -32,7 +35,7 @@ export default function AnalyticsClient({ surveys }: AnalyticsClientProps) {
     const result = await generateSurveyInsights(surveyId);
 
     if (result.error) {
-      toast.error(result.error);
+      notify.error(result.error);
     } else {
       setInsights(result.analysis || null);
     }

@@ -10,6 +10,9 @@ import { Switch } from "@/components/ui/switch"
 import Link from "next/link"
 import { createCheckout } from "@/app/action/payment"
 import { toast } from "sonner"
+import { notify } from '@/lib/notify'
+
+// Notify: used for checkout and plan actions to show success/error messages
 
 
 const containerVariants: Variants = {
@@ -33,11 +36,11 @@ const handlePlanSelect = async (plan: 'free' | 'pro-monthly' | 'pro-yearly') => 
   const result = await createCheckout(plan);
 
   if (result.error) {
-    toast.error(result.error);
+    notify.error(result.error);
   } else if (result.checkoutUrl) {
     window.location.href = result.checkoutUrl;
   } else {
-    toast.success(result.message || 'Free plan activated!');
+    notify.success(result.message || 'Free plan activated!');
   }
 };
 

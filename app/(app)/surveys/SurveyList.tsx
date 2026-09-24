@@ -9,6 +9,9 @@ import { Badge } from '@/components/ui/badge';
 import { PlusCircle, Eye, Edit, Trash2, Copy } from 'lucide-react';
 import Link from 'next/link';
 import { toast } from 'sonner';
+import { notify } from '@/lib/notify';
+
+// Notify: centralizes user messages for survey actions (delete/activate/copy)
 import { useSurvey } from '@/lib/contexts/survey-context';
 
 type Survey = {
@@ -61,11 +64,11 @@ export default function SurveysList({ initialSurveys }: SurveysListProps) {
       const { error } = await supabase.from('surveys').delete().eq('id', id);
 
       if (error) {
-        toast.error(error.message || 'Failed to delete survey');
+        notify.error(error.message || 'Failed to delete survey');
         console.error(error);
       } else {
         setSurveys((prev) => prev.filter((s) => s.id !== id));
-        toast.success('Survey deleted successfully');
+        notify.success('Survey deleted successfully');
       }
 
       setDeletingId(null);
@@ -83,13 +86,13 @@ export default function SurveysList({ initialSurveys }: SurveysListProps) {
         .eq('id', id);
 
       if (error) {
-        toast.error(error.message || 'Failed to activate survey');
+        notify.error(error.message || 'Failed to activate survey');
         console.error(error);
       } else {
         setSurveys((prev) =>
           prev.map((s) => (s.id === id ? { ...s, status: 'active' } : s))
         );
-        toast.success('Survey activated successfully');
+        notify.success('Survey activated successfully');
       }
 
       setActivatingId(null);
@@ -104,17 +107,10 @@ export default function SurveysList({ initialSurveys }: SurveysListProps) {
   const copyShareLink = (surveyId: string) => {
     const shareUrl = `${window.location.origin}/survey/${surveyId}`;
 
-   navigator.clipboard.writeText(shareUrl).then(() => {
-    toast.success('Share link copied to clipboard!', {
-       duration: 2000,
-       description: shareUrl,
-       action: {
-         label: "Open Link",
-          onClick: () => window.open(shareUrl, '_blank'),
-       },
-    });
-   }).catch(() => {
-      toast.error('Failed to copy link');
+  navigator.clipboard.writeText(shareUrl).then(() => {
+   notify.success('Share link copied to clipboard!', shareUrl);
+  }).catch(() => {
+    notify.error('Failed to copy link');
   });
 };
   return (

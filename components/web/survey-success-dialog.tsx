@@ -13,6 +13,9 @@ import {
 import { Button } from "@/components/ui/button"
 import { CheckCircle2, ArrowRight } from 'lucide-react'
 import { useSurvey } from '@/lib/contexts/survey-context'
+import { notify } from '@/lib/notify'
+
+// Notify: used to surface the success event when a survey is created
 
 export function SurveySuccessDialog() {
   const router = useRouter()

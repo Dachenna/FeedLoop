@@ -13,7 +13,9 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { Plus } from 'lucide-react';
-import { toast } from 'sonner';
+import { notify } from '@/lib/notify';
+
+// Notify: informs user about invite actions (validation, success, failure)
 
 export default function InviteTeamMemberSheet() {
   const [open, setOpen] = useState(false);
@@ -23,7 +25,7 @@ export default function InviteTeamMemberSheet() {
 
   const handleInvite = async () => {
     if (!email.trim()) {
-      toast.error("Please enter an email address");
+      notify.error("Please enter an email address");
       return;
     }
 
@@ -39,14 +41,14 @@ export default function InviteTeamMemberSheet() {
       const data = await res.json();
 
       if (data.success) {
-        toast.success(`Invitation sent to ${email}`);
+        notify.success(`Invitation sent to ${email}`);
         setEmail('');
         setOpen(false);
       } else {
-        toast.error(data.error || "Failed to send invitation");
+        notify.error(data.error || "Failed to send invitation");
       }
     } catch (error) {
-      toast.error("Something went wrong");
+      notify.error("Something went wrong");
     } finally {
       setLoading(false);
     }

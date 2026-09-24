@@ -1,5 +1,5 @@
 // components/survey/create-survey-sheet.tsx
-'use client'
+"use client"
 
 import { useState, useEffect, useCallback } from 'react'
 import {
@@ -17,6 +17,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Switch } from "@/components/ui/switch"
 import { toast } from 'sonner'
+import { notify } from '@/lib/notify'
 import { createSurveyAction, updateSurveyAction } from "@/components/web/survey" 
 import { Trash2, GripVertical } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
@@ -135,7 +136,7 @@ export function CreateSurveySheet({ open, onOpenChange, onSave }: CreateSurveySh
         return { ...question, id: crypto.randomUUID() } as Question
       })
       updateFormData({ questions: importedQuestions })
-      toast.success('Questions imported!')
+      notify.success('Questions imported!', 'Imported from a previous survey')
     }
   }
 
@@ -218,17 +219,17 @@ export function CreateSurveySheet({ open, onOpenChange, onSave }: CreateSurveySh
 
   const handleSave = async () => {
     if (!title.trim()) {
-      toast.error('Survey title is required')
+      notify.error('Survey title is required', 'Please provide a title for your survey')
       return
     }
 
     if (questions.length === 0) {
-      toast.error('Add at least one question')
+      notify.error('Add at least one question', 'Please add at least one question to continue')
       return
     }
 
     if (questions.some((q) => !q.text.trim())) {
-      toast.error('All questions need text')
+      notify.error('All questions need text', 'Each question must have text')
       return
     }
 
@@ -253,11 +254,11 @@ export function CreateSurveySheet({ open, onOpenChange, onSave }: CreateSurveySh
         : await createSurveyAction(submitData)
 
       if (result.error) {
-        toast.error(result.error)
+        notify.error(result.error)
         return
       }
 
-      toast.success(isEditing ? 'Survey updated successfully!' : 'Survey created successfully!')
+      notify.success(isEditing ? 'Survey updated successfully!' : 'Survey created successfully!')
       // Reset form
       updateFormData({
         title: '',
@@ -270,7 +271,7 @@ export function CreateSurveySheet({ open, onOpenChange, onSave }: CreateSurveySh
       onSave?.({ title, description, surveyType, anonymous, questions })
       onOpenChange(false)
     } catch (err) {
-      toast.error('Something went wrong. Try again.')
+      notify.error('Something went wrong. Try again.')
       console.error(err)
     } finally {
       setLoading(false)
