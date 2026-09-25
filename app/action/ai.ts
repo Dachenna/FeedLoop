@@ -1,21 +1,16 @@
 'use server';
 
-import Groq from 'groq-sdk';
 import { createClient } from '@/lib/supabase/server';
 
-const groq = new Groq({
-  apiKey: process.env.GROQ_API_KEY,
-});
+const NVIDIA_URL = 'https://integrate.api.nvidia.com/v1/chat/completions';
+const NVIDIA_MODEL = 'meta/llama-3.1-70b-instruct';
 
 export async function generateSurveyInsights(surveyId: string) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  if (!user) {
-    return { error: 'Unauthorized' };
-  }
+  if (!user) return { error: 'Unauthorized' };
 
-  // Get responses that belong to the current user
   const { data: responses, error } = await supabase
     .from('responses')
     .select(`
@@ -29,18 +24,16 @@ export async function generateSurveyInsights(surveyId: string) {
     return { error: 'No responses found for this survey' };
   }
 
-  type ResponseRow = { answers: unknown; surveys?: { title?: string; user_id?: string } };
+  type ResponseRow = { answers: unknown; surveys?: { title?: string } };
   const surveyTitle = (responses[0] as ResponseRow)?.surveys?.title ?? 'Survey';
 
   const formattedResponses = responses
     .map((r, i) => `Response ${i + 1}: ${JSON.stringify(r.answers)}`)
     .join('\n');
 
-  const prompt = `
-You are a product analyst. Analyze these survey responses for "${surveyTitle}".
+  const prompt = `You are a product analyst. Analyze these survey responses for "${surveyTitle}".
 
-Return a clear and useful summary with these sections:
-
+Return:
 1. Overall Sentiment (Positive / Neutral / Negative) + short reason
 2. Top 3 Themes
 3. Key Insights (bullet points)
@@ -49,27 +42,36 @@ Return a clear and useful summary with these sections:
 Keep it concise and actionable.
 
 Responses:
-${formattedResponses}
-`;
+${formattedResponses}`;
 
   try {
-    const completion = await groq.chat.completions.create({
-      messages: [
-        {
-          role: 'user',
-          content: prompt,
-        },
-      ],
-      model: 'llama-3.3-70b-versatile', // Good free model on Groq
-      temperature: 0.3,
+    const res = await fetch(NVIDIA_URL, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${process.env.NVIDIA_NIM_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: NVIDIA_MODEL,
+        messages: [{ role: 'user', content: prompt }],
+        temperature: 0.3,
+        max_tokens: 800,
+      }),
     });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      console.error('NVIDIA NIM error:', data);
+      return { error: 'Failed to generate AI insights. Please try again.' };
+    }
 
     return {
       success: true,
-      analysis: completion.choices[0]?.message?.content || 'No analysis generated',
+      analysis: data.choices?.[0]?.message?.content || 'No analysis generated',
     };
   } catch (err) {
-    console.error('Groq Error:', err);
+    console.error('NVIDIA NIM error:', err);
     return { error: 'Failed to generate AI insights. Please try again.' };
- }
+  }
 }
