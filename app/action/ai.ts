@@ -3,7 +3,7 @@
 import { createClient } from '@/lib/supabase/server';
 
 const NVIDIA_URL = 'https://integrate.api.nvidia.com/v1/chat/completions';
-const NVIDIA_MODEL = 'meta/llama-3.1-70b-instruct';
+const NVIDIA_MODEL = 'nvidia/nemotron-3.5-lightning-30b-a3b';
 
 export async function generateSurveyInsights(surveyId: string) {
   const supabase = await createClient();
