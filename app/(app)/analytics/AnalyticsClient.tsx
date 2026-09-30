@@ -8,9 +8,6 @@ import { Sparkles, Loader2 } from 'lucide-react';
 import { generateSurveyInsights } from '@/app/action/ai';
 import { notify } from '@/lib/notify';
 
-// Notify: displays user-facing messages for actions (success/error/info).
-// Avoid invoking notify at module load to prevent toast popping on import.
-
 type Survey = {
   id: string;
   title: string;
@@ -25,22 +22,34 @@ interface AnalyticsClientProps {
 export default function AnalyticsClient({ surveys }: AnalyticsClientProps) {
   const [selectedSurveyId, setSelectedSurveyId] = useState<string | null>(null);
   const [insights, setInsights] = useState<string | null>(null);
+  const [usedModel, setUsedModel] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
   const handleGenerate = async (surveyId: string) => {
     setSelectedSurveyId(surveyId);
-    setLoading(true);
     setInsights(null);
+    setUsedModel(null);
+    setLoading(true);
 
-    const result = await generateSurveyInsights(surveyId);
+    try {
+      const result = await generateSurveyInsights(surveyId);
 
-    if (result.error) {
-      notify.error(result.error);
-    } else {
-      setInsights(result.analysis || null);
+      if ('error' in result && result.error) {
+        notify.error(result.error);
+        return;
+      }
+
+      if ('success' in result && result.success) {
+        setInsights(result.analysis);
+        setUsedModel(result.model);
+        notify.success('AI insights ready');
+      }
+    } catch (err) {
+      console.error('[AI] client', err);
+      notify.error('Something went wrong generating insights.');
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   return (
@@ -52,7 +61,6 @@ export default function AnalyticsClient({ surveys }: AnalyticsClientProps) {
         </p>
       </div>
 
-      {/* Survey List */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {surveys.length === 0 ? (
           <p className="text-muted-foreground">No surveys found. Create one first.</p>
@@ -69,7 +77,7 @@ export default function AnalyticsClient({ surveys }: AnalyticsClientProps) {
                 </p>
                 <Button
                   onClick={() => handleGenerate(survey.id)}
-                  disabled={loading && selectedSurveyId === survey.id}
+                  disabled={loading}
                   className="w-full"
                 >
                   {loading && selectedSurveyId === survey.id ? (
@@ -90,7 +98,6 @@ export default function AnalyticsClient({ surveys }: AnalyticsClientProps) {
         )}
       </div>
 
-      {/* AI Insights Result */}
       {insights && (
         <Card className="mt-8">
           <CardHeader>
@@ -98,6 +105,9 @@ export default function AnalyticsClient({ surveys }: AnalyticsClientProps) {
               <Sparkles className="h-5 w-5 text-purple-500" />
               AI Insights
             </CardTitle>
+            {usedModel && (
+              <p className="text-xs text-muted-foreground font-mono">{usedModel}</p>
+            )}
           </CardHeader>
           <CardContent>
             <div className="whitespace-pre-wrap text-sm leading-relaxed prose dark:prose-invert max-w-none">
