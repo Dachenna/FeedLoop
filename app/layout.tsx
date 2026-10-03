@@ -2,37 +2,38 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "../components/ui/theme-provider";
-import { Toaster} from '@/components/ui/sonner'
+import { Toaster } from '@/components/ui/sonner'
 
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
-  weight: ['300', '400', '500', '600', '700', '800', '900'],  // Optional: specify weights
+  weight: ['300', '400', '500', '600', '700', '800', '900'],
   display: 'swap',
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://feed-loop-two.vercel.app'
+const description =
+  'FeedLoop is the survey, the inbox, and the AI brief. Build NPS or custom questions, share a public link, then turn answers into themes and next steps.'
+
 export const metadata: Metadata = {
-  title: "FeedLoop - Streamline Your Feedback Collection",
-  description: "FeedLoop is a powerful SaaS platform for creating surveys, collecting feedback, and analyzing responses to improve your products and services.",
-  keywords: ["surveys", "feedback", "analytics", "SaaS", "customer insights", "data collection"],
-  authors: [{ name: "FeedLoop Team" }],
+  metadataBase: new URL(siteUrl),
+  title: "FeedLoop — Stop collecting feedback you never read",
+  description,
+  keywords: ["surveys", "feedback", "NPS", "CSAT", "analytics", "SaaS", "Paystack"],
+  authors: [{ name: "David", url: siteUrl }],
+  alternates: { canonical: '/' },
   openGraph: {
-    title: "FeedLoop - Streamline Your Feedback Collection",
-    description: "FeedLoop is a powerful SaaS platform for creating surveys, collecting feedback, and analyzing responses to improve your products and services.",
-    images: [
-      {
-        url: "/banner.png",
-        width: 1200,
-        height: 630,
-      },
-    ],
-    type: "website",
+    title: "FeedLoop — Stop collecting feedback you never read",
+    description,
+    url: siteUrl,
+    siteName: 'FeedLoop',
+    type: 'website',
+    locale: 'en_US',
   },
   twitter: {
-    card: "summary_large_image",
-    title: "FeedLoop - Streamline Your Feedback Collection",
-    description: "FeedLoop is a powerful SaaS platform for creating surveys, collecting feedback, and analyzing responses to improve your products and services.",
-    images: ["/banner.png"],
+    card: 'summary_large_image',
+    title: "FeedLoop — Stop collecting feedback you never read",
+    description,
   },
 };
 
@@ -49,23 +50,18 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "SoftwareApplication",
-              "name": "FeedLoop",
-              "description": "FeedLoop is a powerful SaaS platform for creating surveys, collecting feedback, and analyzing responses to improve your products and services.",
-              "url": "https://feed-loop-two.vercel.app/",
-              "image": "https://feed-loop-two.vercel.app/",
-              "applicationCategory": "BusinessApplication",
-              "operatingSystem": "Web",
-              "offers": {
-                "@type": "Offer",
-                "price": "$19.99", // Or your pricing
-                "priceCurrency": "USD"
+              '@context': 'https://schema.org',
+              '@type': 'SoftwareApplication',
+              name: 'FeedLoop',
+              description,
+              url: siteUrl,
+              image: `${siteUrl}/opengraph-image`,
+              applicationCategory: 'BusinessApplication',
+              operatingSystem: 'Web',
+              creator: {
+                '@type': 'Person',
+                name: 'David',
               },
-              "creator": {
-                "@type": "Organization",
-                "name": "Dachenna"
-              }
             }),
           }}
         />
