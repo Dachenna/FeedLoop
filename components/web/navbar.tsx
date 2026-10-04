@@ -29,14 +29,12 @@ export function Navbar() {
 
   return (
     <nav
-      className={`sticky top-0 z-40 border-b transition-colors ${
-        scrolled
-          ? 'border-white/10 bg-zinc-950/80 backdrop-blur-md'
-          : 'border-transparent bg-zinc-950/40 backdrop-blur-sm'
-      }`}
+      className={`sticky top-0 z-40 border-b transition-shadow ${
+        scrolled ? 'shadow-md' : 'shadow-sm'
+      } border-zinc-200 bg-white/95 text-zinc-900 backdrop-blur-md dark:border-white/10 dark:bg-zinc-950/95 dark:text-white dark:shadow-black/40`}
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-        <Link href="/" className="text-lg font-medium tracking-tight text-white">
+        <Link href="/" className="text-lg font-medium tracking-tight text-zinc-950 dark:text-white">
           FeedLoop
         </Link>
 
@@ -45,7 +43,11 @@ export function Navbar() {
             <Link
               key={link.href}
               href={link.href}
-              className={pathname === link.href ? 'text-white' : 'text-zinc-400 hover:text-white transition-colors'}
+              className={
+                pathname === link.href
+                  ? 'text-zinc-950 dark:text-white font-medium'
+                  : 'text-zinc-700 hover:text-zinc-950 dark:text-zinc-300 dark:hover:text-white transition-colors'
+              }
             >
               {link.label}
             </Link>
@@ -53,28 +55,28 @@ export function Navbar() {
         </div>
 
         <div className="flex items-center gap-2">
-          <Button asChild variant="ghost" className="hidden sm:inline-flex text-zinc-300 hover:text-white hover:bg-white/10">
+          <Button asChild variant="ghost" className="hidden sm:inline-flex text-zinc-800 hover:text-zinc-950 hover:bg-zinc-100 dark:text-zinc-300 dark:hover:text-white dark:hover:bg-white/10">
             <Link href="/auth/login">Sign in</Link>
           </Button>
-          <Button asChild className="bg-white text-black hover:bg-zinc-200">
+          <Button asChild className="bg-zinc-950 text-white hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-200">
             <Link href="/auth/signup">Sign up</Link>
           </Button>
           <ModeToggle />
-          <Button variant="ghost" size="icon" className="md:hidden text-zinc-300" onClick={() => setIsOpen(!isOpen)}>
+          <Button variant="ghost" size="icon" className="md:hidden text-zinc-800 dark:text-zinc-200" onClick={() => setIsOpen(!isOpen)}>
             {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </Button>
         </div>
       </div>
 
       {isOpen && (
-        <div className="md:hidden border-t border-white/10 bg-zinc-950">
+        <div className="md:hidden border-t border-zinc-200 bg-white dark:border-white/10 dark:bg-zinc-950">
           <div className="max-w-6xl mx-auto px-4 py-3 flex flex-col">
             {links.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setIsOpen(false)}
-                className="py-3 text-sm text-zinc-300 border-b border-white/5 last:border-0"
+                className="py-3 text-sm text-zinc-800 border-b border-zinc-100 last:border-0 dark:text-zinc-200 dark:border-white/5"
               >
                 {link.label}
               </Link>
