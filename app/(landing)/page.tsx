@@ -89,7 +89,7 @@ const faqs = [
 function ProductFrame() {
   return (
     <div className="relative">
-      <div className="absolute -inset-8 bg-gradient-to-b from-emerald-500/20 via-transparent to-transparent blur-3xl pointer-events-none" />
+      <div className="absolute -inset-8 bg-linear-to-b from-emerald-500/20 via-transparent to-transparent blur-3xl pointer-events-none" />
       <div className="relative rounded-2xl border border-white/10 bg-zinc-900/80 shadow-2xl overflow-hidden">
         <div className="flex items-center gap-2 px-4 py-3 border-b border-white/10">
           <span className="h-2.5 w-2.5 rounded-full bg-zinc-600" />
@@ -167,7 +167,7 @@ export default function Home() {
               Survey builder, inbox, and AI brief in one product
               <ArrowRight className="h-3 w-3" />
             </Link>
-            <h1 className="max-w-3xl text-4xl sm:text-5xl lg:text-6xl font-medium tracking-tight leading-[1.08] bg-gradient-to-b from-white via-white to-white/55 bg-clip-text text-transparent">
+            <h1 className="max-w-3xl text-4xl sm:text-5xl lg:text-6xl font-medium tracking-tight leading-[1.08] bg-linear-to-b from-white via-white to-white/55 bg-clip-text text-transparent">
               Stop collecting feedback you never read.
             </h1>
             <p className="mt-6 max-w-2xl text-base sm:text-lg text-zinc-400 leading-relaxed">
@@ -227,7 +227,7 @@ export default function Home() {
             </ul>
           </div>
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-zinc-950 to-transparent z-10 pointer-events-none hidden lg:block" />
+            <div className="absolute inset-y-0 left-0 w-1/3 bg-linear-to-r from-zinc-950 to-transparent z-10 pointer-events-none hidden lg:block" />
             <ProductFrame />
           </div>
         </section>
@@ -239,7 +239,7 @@ export default function Home() {
             {features.map((f) => (
               <div
                 key={f.title}
-                className={`${f.span} rounded-2xl border border-white/10 bg-white/[0.03] p-6 hover:bg-white/[0.05] transition-colors`}
+                className={`${f.span} rounded-2xl border border-white/10 bg-white/3 p-6 hover:bg-white/5 transition-colors`}
               >
                 <f.icon className="h-5 w-5 text-emerald-400" />
                 <h3 className="mt-4 font-medium text-lg">{f.title}</h3>
@@ -293,7 +293,7 @@ export default function Home() {
         </section>
 
         <section className="max-w-6xl mx-auto px-4 sm:px-6 pb-24">
-          <Card className="border-white/10 bg-white/[0.03]">
+          <Card className="border-white/10 bg-white/3">
             <CardContent className="p-8 md:p-10">
               <p className="text-xs uppercase tracking-widest text-zinc-500">Founder note</p>
               <h2 className="mt-2 text-2xl font-medium">Built in public from Nigeria, for teams that cannot wait on a US billing stack.</h2>
@@ -319,7 +319,7 @@ export default function Home() {
             </div>
           </div>
           <div className="grid md:grid-cols-3 gap-5">
-            <Card className="border-white/10 bg-white/[0.03]">
+            <Card className="border-white/10 bg-white/3">
               <CardContent className="p-6 flex flex-col h-full">
                 <p className="text-sm text-zinc-400">Free</p>
                 <p className="mt-2 text-3xl font-medium">₦0</p>
@@ -354,7 +354,7 @@ export default function Home() {
                 </Button>
               </CardContent>
             </Card>
-            <Card className="border-white/10 bg-white/[0.03]">
+            <Card className="border-white/10 bg-white/3">
               <CardContent className="p-6 flex flex-col h-full">
                 <p className="text-sm text-zinc-400">Team</p>
                 <p className="mt-2 text-3xl font-medium">₦15,000<span className="text-base font-normal text-zinc-500">/month</span></p>

@@ -7,6 +7,7 @@ FeedLoop is a powerful SaaS platform designed to streamline feedback collection 
 - **Survey Creation**: Build custom surveys with various question types
 - **Real-time Analytics**: Visualize feedback data with interactive charts and dashboards
 - **User Management**: Handle authentication and user roles
+- **AI Analysitcs** :
 - **Responsive Design**: Works seamlessly across all devices
 - **Dark/Light Mode**: Theme support for better user experience
 
