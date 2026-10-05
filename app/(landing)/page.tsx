@@ -41,13 +41,13 @@ const features = [
   {
     icon: Share2,
     title: 'Share without another tool',
-    body: 'Copy /survey/[id]. WhatsApp, email, or X. No account for the person filling it.',
+    body: 'Copy the public survey link. Email, Slack, or X. No account for the person filling it.',
     span: '',
   },
   {
     icon: Wallet,
-    title: 'Paystack, priced in naira',
-    body: 'Cards and local methods your market already uses. No surprise USD checkout.',
+    title: 'Priced in dollars',
+    body: 'Plans are in USD for teams in the US, Canada, and Germany. Nigerian teams can still pay in naira on the same checkout.',
     span: '',
   },
   {
@@ -64,7 +64,7 @@ const comparison = [
   ['NPS / CSAT', 'Built in', 'You assemble it'],
   ['Owner dashboard', 'Surveys, responses, analytics', 'Sheet or extra product'],
   ['AI themes + next steps', 'On-demand from your answers', 'Usually a paid add-on'],
-  ['Checkout', 'Paystack / NGN', 'US/EU processors'],
+  ['Price', 'USD, card checkout', 'USD, plus a separate insights product'],
 ]
 
 const faqs = [
@@ -74,7 +74,11 @@ const faqs = [
   },
   {
     q: 'Who is it for?',
-    a: 'Founders and small product teams who already talk to users on WhatsApp and need those answers to become a weekly brief.',
+    a: 'Product teams in the United States, Canada, and Germany who already ask users questions and need those answers to become a weekly brief.',
+  },
+  {
+    q: 'Can I pay in naira?',
+    a: 'Yes. The listed price is USD. At checkout, Nigerian cards can pay the naira equivalent. US, Canadian, and German cards pay in dollars once international checkout is on.',
   },
   {
     q: 'Do respondents need an account?',
@@ -115,7 +119,7 @@ function ProductFrame() {
           </div>
         </div>
         <div className="p-5 space-y-2 bg-zinc-950/80">
-          {['"The save button does nothing on Android"', '"NPS 8 — love the form, hate the wait"', '"Need a WhatsApp share link"'].map((line) => (
+          {['"The save button does nothing on Android"', '"NPS 8 \u2014 love the form, hate the wait"', '"Need this in the Monday brief"'].map((line) => (
             <div key={line} className="rounded-lg border border-white/5 bg-white/5 px-3 py-2 text-sm text-zinc-300">
               {line}
             </div>
@@ -148,7 +152,7 @@ export default function Home() {
     }
   }
 
-  const proPrice = isYearly ? '50,000' : '5,000'
+  const proPrice = isYearly ? '90' : '9'
   const proPeriod = isYearly ? '/year' : '/month'
 
   return (
@@ -164,7 +168,7 @@ export default function Home() {
               href="#product"
               className="mb-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs text-zinc-400 hover:text-white transition-colors"
             >
-              Survey builder, inbox, and AI brief in one product
+              For product teams in the US, Canada, and Germany
               <ArrowRight className="h-3 w-3" />
             </Link>
             <h1 className="max-w-3xl text-4xl sm:text-5xl lg:text-6xl font-medium tracking-tight leading-[1.08] bg-linear-to-b from-white via-white to-white/55 bg-clip-text text-transparent">
@@ -185,7 +189,7 @@ export default function Home() {
                 <Link href="/auth/login">Sign in</Link>
               </Button>
             </div>
-            <p className="mt-4 text-xs text-zinc-500">Free: 3 surveys. Pro via Paystack.</p>
+            <p className="mt-4 text-xs text-zinc-500">Free: 3 surveys. Pro is $9/month.</p>
           </div>
 
           <div className="mt-16 max-w-4xl mx-auto">
@@ -199,7 +203,7 @@ export default function Home() {
               ['What you build', 'NPS, CSAT, ratings, text'],
               ['What they see', 'A public form only'],
               ['What you get', 'Inbox + AI brief'],
-              ['How you pay', 'Paystack, NGN'],
+              ['How you pay', 'USD, card checkout'],
             ].map(([k, v]) => (
               <div key={k}>
                 <p className="text-[11px] uppercase tracking-wider text-zinc-500">{k}</p>
@@ -218,7 +222,7 @@ export default function Home() {
               FeedLoop is one owner, one inbox, one generate button.
             </p>
             <ul className="mt-8 space-y-3 text-sm text-zinc-300">
-              {['The form is not the product.', 'A chart of scores is not a Monday decision.', 'If checkout is only Stripe, half your market never starts.'].map((t) => (
+              {['The form is not the product.', 'A chart of scores is not a Monday decision.', 'You should not need a second tool to know what to ship.'].map((t) => (
                 <li key={t} className="flex gap-2">
                   <Check className="h-4 w-4 text-emerald-400 mt-0.5" />
                   {t}
@@ -255,7 +259,7 @@ export default function Home() {
             <div className="mt-12 grid md:grid-cols-3 gap-10">
               {[
                 ['01', 'Create the survey', 'Name it, add questions, set it live.'],
-                ['02', 'Send the public link', 'Anyone with /survey/[id] can answer.'],
+                ['02', 'Send the public link', 'Anyone with the link can answer.'],
                 ['03', 'Generate the brief', 'Responses land in the inbox. Analytics writes the next steps.'],
               ].map(([n, t, b]) => (
                 <div key={n}>
@@ -296,10 +300,10 @@ export default function Home() {
           <Card className="border-white/10 bg-white/3">
             <CardContent className="p-8 md:p-10">
               <p className="text-xs uppercase tracking-widest text-zinc-500">Founder note</p>
-              <h2 className="mt-2 text-2xl font-medium">Built in public from Nigeria, for teams that cannot wait on a US billing stack.</h2>
+              <h2 className="mt-2 text-2xl font-medium">Built for teams who will pay for a decision, not another form.</h2>
               <p className="mt-4 text-zinc-400 leading-relaxed max-w-3xl">
-                Survey builder, public form, response inbox, NVIDIA-backed insights, Paystack checkout.
-                I would rather show the working loop than invent logos. If you already ask users questions and lose the answers, this is the product.
+                FeedLoop is priced in dollars for product teams in the United States, Canada, and Germany.
+                Nigerian teams are still welcome and can pay in naira. I would rather show the working loop than invent logos.
               </p>
               <p className="mt-6 text-sm font-medium">David — FeedLoop</p>
             </CardContent>
@@ -310,7 +314,7 @@ export default function Home() {
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10">
             <div>
               <h2 className="text-3xl font-medium tracking-tight">Pricing</h2>
-              <p className="mt-2 text-zinc-400">Naira. Paystack. No surprise conversion.</p>
+              <p className="mt-2 text-zinc-400">USD for the US, Canada, and Germany. Naira checkout stays available in Nigeria.</p>
             </div>
             <div className="flex items-center gap-3 text-sm">
               <span className={!isYearly ? 'text-white' : 'text-zinc-500'}>Monthly</span>
@@ -322,7 +326,7 @@ export default function Home() {
             <Card className="border-white/10 bg-white/3">
               <CardContent className="p-6 flex flex-col h-full">
                 <p className="text-sm text-zinc-400">Free</p>
-                <p className="mt-2 text-3xl font-medium">₦0</p>
+                <p className="mt-2 text-3xl font-medium">$0</p>
                 <ul className="mt-6 space-y-2 text-sm flex-1 text-zinc-300">
                   {['3 surveys', '50 responses / month', 'Public links', 'Response inbox'].map((x) => (
                     <li key={x} className="flex gap-2"><Check className="h-4 w-4 text-emerald-400" />{x}</li>
@@ -338,10 +342,10 @@ export default function Home() {
               <CardContent className="p-6 flex flex-col h-full">
                 <p className="text-sm text-emerald-300">Pro</p>
                 <p className="mt-2 text-3xl font-medium">
-                  ₦{proPrice}<span className="text-base font-normal text-zinc-500">{proPeriod}</span>
+                  ${proPrice}<span className="text-base font-normal text-zinc-500">{proPeriod}</span>
                 </p>
                 <ul className="mt-6 space-y-2 text-sm flex-1 text-zinc-300">
-                  {['50 surveys', '2,000 responses / month', 'AI insights', 'Paystack billing'].map((x) => (
+                  {['50 surveys', '2,000 responses / month', 'AI insights', 'Card checkout'].map((x) => (
                     <li key={x} className="flex gap-2"><Check className="h-4 w-4 text-emerald-400" />{x}</li>
                   ))}
                 </ul>
@@ -350,14 +354,14 @@ export default function Home() {
                   disabled={!!busy}
                   onClick={() => handlePlanSelect(isYearly ? 'pro-yearly' : 'pro-monthly')}
                 >
-                  {busy ? 'Redirecting…' : 'Continue to Paystack'}
+                  {busy ? 'Redirecting…' : 'Continue to checkout'}
                 </Button>
               </CardContent>
             </Card>
             <Card className="border-white/10 bg-white/3">
               <CardContent className="p-6 flex flex-col h-full">
                 <p className="text-sm text-zinc-400">Team</p>
-                <p className="mt-2 text-3xl font-medium">₦15,000<span className="text-base font-normal text-zinc-500">/month</span></p>
+                <p className="mt-2 text-3xl font-medium">$29<span className="text-base font-normal text-zinc-500">/month</span></p>
                 <ul className="mt-6 space-y-2 text-sm flex-1 text-zinc-300">
                   {['Unlimited surveys', '10,000 responses / month', 'AI insights', '5 seats'].map((x) => (
                     <li key={x} className="flex gap-2"><Check className="h-4 w-4 text-emerald-400" />{x}</li>
