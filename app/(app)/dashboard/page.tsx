@@ -88,13 +88,6 @@ export default async function Page() {
   responseRows.forEach((row) => collectScores(row.answers, scores))
   const average = scores.length ? scores.reduce((sum, n) => sum + n, 0) / scores.length : null
 
-  const liveSurveys = surveyRows.filter((row) => row.status === 'live' || row.status === 'published')
-  const repliedIds = new Set(
-    responseRows.map((row) => {
-      const survey = Array.isArray(row.surveys) ? row.surveys[0] : row.surveys
-      return survey?.title
-    })
-  )
   const surveysWithReplies = new Set(
     responseRows.map((row) => {
       const survey = Array.isArray(row.surveys) ? row.surveys[0] : row.surveys
@@ -110,7 +103,7 @@ export default async function Page() {
     responses: responseRows.length,
     responsesDelta: `${weekChange >= 0 ? '+' : ''}${weekChange}%`,
     responsesUp: weekChange >= 0,
-    satisfaction: average == null ? '—' : `${average.toFixed(1)}/10`,
+    satisfaction: average == null ? '\u2014' : `${average.toFixed(1)}/10`,
     satisfactionNote: scores.length ? `From ${scores.length} rating answers` : 'No rating answers yet',
     replyRate: `${replyRate}%`,
     replyNote: rateBase ? `${surveysWithReplies} of ${rateBase} surveys have a reply` : 'No surveys yet',
@@ -135,8 +128,8 @@ export default async function Page() {
       id: row.id,
       survey: survey?.title || 'Survey',
       respondent: row.respondent_email || 'Anonymous',
-      date: row.submitted_at ? new Date(row.submitted_at).toLocaleDateString() : '—',
-      score: score == null ? '—' : String(score),
+      date: row.submitted_at ? new Date(row.submitted_at).toLocaleDateString() : '\u2014',
+      score: score == null ? '\u2014' : String(score),
       sentiment: sentimentFromScore(score),
       action: 'View',
     }
