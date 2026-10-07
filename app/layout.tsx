@@ -11,7 +11,7 @@ const inter = Inter({
   display: 'swap',
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://feed-loop-two.vercel.app'
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://feed-loop-two.vercel.app/'
 const description =
   'FeedLoop is the survey, the inbox, and the AI brief. Build NPS or custom questions, share a public link, then turn answers into themes and next steps.'
 

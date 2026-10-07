@@ -4,7 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 
 const NVIDIA_URL = 'https://integrate.api.nvidia.com/v1/chat/completions';
 const NVIDIA_MODELS = [
-  'nvidia/nemotron-3.5-lightning-30b-a3b',
+  'nvidia/nemotron-3-ultra-550b-a55b',
   'nvidia/llama-3.1-nemotron-70b-instruct',
 ] as const;
 

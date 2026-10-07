@@ -45,8 +45,8 @@ export function Navbar() {
               href={link.href}
               className={
                 pathname === link.href
-                  ? 'text-zinc-950 dark:text-white font-medium'
-                  : 'text-zinc-700 hover:text-zinc-950 dark:text-zinc-300 dark:hover:text-white transition-colors'
+                  ? 'font-bold text-zinc-950 dark:text-white'
+                  : 'font-bold text-zinc-700 hover:text-zinc-950 dark:text-zinc-300 dark:hover:text-white transition-colors'
               }
             >
               {link.label}
