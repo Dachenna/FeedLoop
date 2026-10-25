@@ -31,7 +31,7 @@ export function Navbar() {
     <nav
       className={`sticky top-0 z-40 border-b transition-shadow ${
         scrolled ? 'shadow-md' : 'shadow-sm'
-      } border-zinc-200 bg-white/95 text-zinc-900 backdrop-blur-md dark:border-white/10 dark:bg-zinc-950/95 dark:text-white dark:shadow-black/40`}
+      } border-zinc-200 bg-white/60 text-zinc-900 backdrop-blur-md dark:border-white/10 dark:bg-zinc-950/95 dark:text-white dark:shadow-black/40`}
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
         <Link href="/" className="text-lg font-medium tracking-tight text-zinc-950 dark:text-white">

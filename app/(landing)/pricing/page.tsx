@@ -34,11 +34,11 @@ const plans = [
 
 export default function PricingPage() {
   return (
-    <main className="min-h-screen bg-zinc-950 text-zinc-100">
+    <main className="min-h-screen bg-zinc-950 text-white">
       <section className="max-w-6xl mx-auto px-4 sm:px-6 pt-20 pb-12">
         <p className="text-xs uppercase tracking-widest text-emerald-400">Pricing</p>
-        <h1 className="mt-3 text-4xl sm:text-5xl font-medium tracking-tight">USD, listed in public.</h1>
-        <p className="mt-5 max-w-2xl text-zinc-400 leading-relaxed">
+        <h1 className="mt-3 text-4xl sm:text-5xl font-medium tracking-tight text-white">USD, listed in public.</h1>
+        <p className="mt-5 max-w-2xl text-white/70 leading-relaxed">
           Built for teams in the United States, Canada, and Germany. Nigerian cards can still pay the naira equivalent. International dollar checkout turns on after Paystack approves it. The prices below are the prices.
         </p>
       </section>
@@ -47,13 +47,13 @@ export default function PricingPage() {
           <div
             key={plan.name}
             className={`rounded-2xl border p-6 flex flex-col ${
-              plan.featured ? 'border-emerald-400/40 bg-emerald-500/5 ring-1 ring-emerald-400/30' : 'border-white/10 bg-white/[0.03]'
+              plan.featured ? 'border-emerald-400/40 bg-emerald-500/5 ring-1 ring-emerald-400/30' : 'border-white/10 bg-white/3'
             }`}
           >
-            <p className={plan.featured ? 'text-sm text-emerald-300' : 'text-sm text-zinc-400'}>{plan.name}</p>
-            <p className="mt-2 text-3xl font-medium">{plan.price}</p>
-            <p className="text-sm text-zinc-500">{plan.note}</p>
-            <ul className="mt-6 space-y-2 text-sm text-zinc-300 flex-1">
+            <p className={plan.featured ? 'text-sm text-white' : 'text-sm text-white/80'}>{plan.name}</p>
+            <p className="mt-2 text-3xl font-medium text-white">{plan.price}</p>
+            <p className="text-sm text-white/90">{plan.note}</p>
+            <ul className="mt-6 space-y-2 text-sm text-white/80 flex-1">
               {plan.items.map((item) => (
                 <li key={item} className="flex gap-2">
                   <Check className="h-4 w-4 text-emerald-400 mt-0.5" />
